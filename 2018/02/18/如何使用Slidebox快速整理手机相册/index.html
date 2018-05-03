@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -57,18 +57,17 @@
 
 
 
-<meta name="description" content="持续更新Hexo博客的使用方法和技巧">
-<meta name="keywords" content="Hexo">
+<meta name="description" content="如何在半个小时整理手机上的450+照片？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo博客使用笔记">
-<meta property="og:url" content="https://github.com/leoyip/2016/03/23/Hexo博客使用笔记/index.html">
+<meta property="og:title" content="如何使用Slidebox快速整理手机相册">
+<meta property="og:url" content="https://github.com/leoyip/2018/02/18/如何使用Slidebox快速整理手机相册/index.html">
 <meta property="og:site_name" content="Yip&#39;s Blog">
-<meta property="og:description" content="持续更新Hexo博客的使用方法和技巧">
+<meta property="og:description" content="如何在半个小时整理手机上的450+照片？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2016-03-24T06:52:44.000Z">
+<meta property="og:updated_time" content="2018-05-03T09:17:04.212Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo博客使用笔记">
-<meta name="twitter:description" content="持续更新Hexo博客的使用方法和技巧">
+<meta name="twitter:title" content="如何使用Slidebox快速整理手机相册">
+<meta name="twitter:description" content="如何在半个小时整理手机上的450+照片？">
 
 
 
@@ -86,7 +85,7 @@
   };
 </script>
 
-  <title> Hexo博客使用笔记 | Yip's Blog </title>
+  <title> 如何使用Slidebox快速整理手机相册 | Yip's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -236,7 +235,7 @@
             
             
               
-                Hexo博客使用笔记
+                如何使用Slidebox快速整理手机相册
               
             
           </h1>
@@ -248,19 +247,38 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-23T21:16:56+08:00" content="2016-03-23">
-              2016-03-23
+            <time itemprop="dateCreated" datetime="2018-02-18T23:00:08+08:00" content="2018-02-18">
+              2018-02-18
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/HowWiKi/" itemprop="url" rel="index">
+                    <span itemprop="name">HowWiKi</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/03/23/Hexo博客使用笔记/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/23/Hexo博客使用笔记/" itemprop="commentsCount"></span>
+                <a href="/2018/02/18/如何使用Slidebox快速整理手机相册/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2018/02/18/如何使用Slidebox快速整理手机相册/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -270,7 +288,7 @@
 
           
           
-             <span id="/2016/03/23/Hexo博客使用笔记/" class="leancloud_visitors" data-flag-title="Hexo博客使用笔记">
+             <span id="/2018/02/18/如何使用Slidebox快速整理手机相册/" class="leancloud_visitors" data-flag-title="如何使用Slidebox快速整理手机相册">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -291,32 +309,32 @@
       
 
       
-        <p>持续更新Hexo博客的使用方法和技巧<br><a id="more"></a></p>
-<h3 id="如何发布新文章"><a href="#如何发布新文章" class="headerlink" title="如何发布新文章"></a>如何发布新文章</h3><p>以下为gitbash命令。其他命令行工具，命令有所不同。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new [layout] &lt;title&gt;		# 生成文章 ，不同layout保存路径不同，见下表。</span><br><span class="line"></span><br><span class="line">$ cd .deploy_git		# 转到master目录下</span><br><span class="line"></span><br><span class="line">$ hexo clean		# 清除旧文档</span><br><span class="line"></span><br><span class="line">$ hexo g		# 生成新文档</span><br><span class="line"></span><br><span class="line">$ hexo d		# 发布新文档</span><br></pre></td></tr></table></figure>
-<table>
-<thead>
-<tr>
-<th>布局</th>
-<th>路径</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>post</td>
-<td>source/_posts</td>
-</tr>
-<tr>
-<td>page</td>
-<td>source</td>
-</tr>
-<tr>
-<td>draft</td>
-<td>source/_drafts</td>
-</tr>
-</tbody>
-</table>
-<p>更多内容：<a href="https://hexo.io/zh-cn/docs/writing.html" target="_blank" rel="noopener">写作</a></p>
+        <p>如何在半个小时整理手机上的450+照片？<br><a id="more"></a></p>
+<h2 id="定个小目标"><a href="#定个小目标" class="headerlink" title="定个小目标"></a>定个小目标</h2><p>首先定一个容易达成的目标，通过整理实现的效果是：</p>
+<ol>
+<li>分类。实现照片比较粗略的分类，方便查找和使用。</li>
+<li>删丑照以及去重。将不好看的照片快速删除，将重复拍摄的照片删除。</li>
+<li>收藏美照。方便后续发票圈分享等。</li>
+</ol>
+<h2 id="下载Slidebox"><a href="#下载Slidebox" class="headerlink" title="下载Slidebox"></a>下载Slidebox</h2><p>确定目标后，对于手机照片整理，关键在于”快“。为此，个人推荐下载安装Slidebox，安卓以及苹果手机均支持。</p>
+<h2 id="使用说明"><a href="#使用说明" class="headerlink" title="使用说明"></a>使用说明</h2><p>Slidebox操作极为简单，只有一下几个动作：</p>
+<ul>
+<li>上滑：删除</li>
+<li>点击下方相册：将当前图片归类</li>
+<li>左上角撤销（iOS端还有收藏以及长安分享功能）</li>
+<li>左右滑动：浏览照片</li>
+</ul>
+<h2 id="关于文件夹"><a href="#关于文件夹" class="headerlink" title="关于文件夹"></a>关于文件夹</h2><h3 id="图片怎么分类比较好？"><a href="#图片怎么分类比较好？" class="headerlink" title="图片怎么分类比较好？"></a>图片怎么分类比较好？</h3><p>为了避免选择困难症，个人建议是按照以下分类：</p>
+<ul>
+<li>随手拍：随手拍拍，花草动物人像景物，不知道有什么用整理再说</li>
+<li>资料相册：拍了身份证、文件资料、开会白板笔记等放在这里</li>
+<li>表情包网图：从网上搜集的各种表情图、GIF、用来做头像的文艺图片，网络来源的都先放这里</li>
+<li>活动相册：旅游、聚会、其他活动，不超过十张的都放到一起，超过十张的独立放一个相册，命名为“2018-02-某某活动”</li>
+<li>人物相册：专门为家人、男女朋友、配偶、儿女等设立的独立相册</li>
+</ul>
+<p>初步按照以上分类，后续根据实际使用情况增删。</p>
+<h3 id="Android用户和iOS用户创建的文件夹的区别："><a href="#Android用户和iOS用户创建的文件夹的区别：" class="headerlink" title="Android用户和iOS用户创建的文件夹的区别："></a>Android用户和iOS用户创建的文件夹的区别：</h3><p>应用的 Album 一栏，可以创建相应的相册，或添加已有相册。如果你是 iOS 设备，添加已有相簿会将该相簿下所有图片同时添加到该分类下，而添加新相册会在你的图库中，新建一个相应的相簿。</p>
+<p>而对于 Android 用户来说，添加已有相册只能添加设备 Picture 文件夹中已有的文件夹，如果你有已经归类好的文件夹想要添加，则要现在手机文件管理器中将该文件夹移到 Picture 文件夹下再进行添加。新建相册的话，则会在 Picture 文件夹下新建一个相应的文件夹。</p>
 
       
     </div>
@@ -329,27 +347,21 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Hexo/" rel="tag">#Hexo</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/03/23/Markdown语法备忘笔记/" rel="next" title="Markdown语法备忘笔记">
-                <i class="fa fa-chevron-left"></i> Markdown语法备忘笔记
+              <a href="/2016/03/31/80-20法则/" rel="next" title="80_20法则">
+                <i class="fa fa-chevron-left"></i> 80_20法则
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/03/24/Hexo博客安装与更新-3/" rel="prev" title="Hexo博客安装与更新-3">
-                Hexo博客安装与更新-3 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/02/001-第一次上高速/" rel="prev" title="#001 第一次开车上高速">
+                #001 第一次开车上高速 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -376,8 +388,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/03/23/Hexo博客使用笔记/"
-           data-title="Hexo博客使用笔记" data-url="https://github.com/leoyip/2016/03/23/Hexo博客使用笔记/">
+      <div class="ds-thread" data-thread-key="2018/02/18/如何使用Slidebox快速整理手机相册/"
+           data-title="如何使用Slidebox快速整理手机相册" data-url="https://github.com/leoyip/2018/02/18/如何使用Slidebox快速整理手机相册/">
       </div>
     
   </div>
@@ -499,7 +511,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何发布新文章"><span class="nav-number">1.</span> <span class="nav-text">如何发布新文章</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#定个小目标"><span class="nav-number">1.</span> <span class="nav-text">定个小目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载Slidebox"><span class="nav-number">2.</span> <span class="nav-text">下载Slidebox</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用说明"><span class="nav-number">3.</span> <span class="nav-text">使用说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关于文件夹"><span class="nav-number">4.</span> <span class="nav-text">关于文件夹</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图片怎么分类比较好？"><span class="nav-number">4.1.</span> <span class="nav-text">图片怎么分类比较好？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Android用户和iOS用户创建的文件夹的区别："><span class="nav-number">4.2.</span> <span class="nav-text">Android用户和iOS用户创建的文件夹的区别：</span></a></li></ol></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
