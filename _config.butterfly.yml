@@ -1,0 +1,139 @@
+# Butterfly Theme Configuration
+
+# Navigation
+nav:
+  logo:
+  display_title: true
+  display_post_title: true
+  fixed: true
+
+menu:
+  首页: / || fa fa-home
+  归档: /archives/ || fa fa-archive
+  分类: /categories/ || fa fa-th
+  标签: /tags/ || fa fa-tags
+  关于: /about/ || fa fa-user
+
+# Social Links
+social:
+  fab fa-github: https://github.com/leoyip || GitHub
+
+# Homepage subtitle
+subtitle:
+  enable: true
+  effect: true
+  sub: '记录和创造生活，分享和交流知识'
+
+# Avatar
+avatar:
+  img: /images/avatar.png
+  effect: true
+
+# Theme color
+theme_color:
+  enable: true
+  main: "#2c3e50"
+
+# Top images - use gradient instead of removing
+disable_top_img: false
+default_top_img: "linear-gradient(160deg, #2c3e50, #2980b9)"
+index_img: /images/banner.jpg
+archive_img: "linear-gradient(160deg, #2c3e50, #2980b9)"
+tag_img: "linear-gradient(160deg, #2c3e50, #2980b9)"
+category_img: "linear-gradient(160deg, #2c3e50, #2980b9)"
+
+# Add dark mask to header for readability
+mask:
+  header: true
+  footer: false
+
+# Footer
+footer:
+  owner:
+    enable: true
+    since: 2016
+  custom_text:
+
+# Sidebar
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: false
+  position: right
+  card_author:
+    enable: true
+    button:
+      enable: false
+  card_announcement:
+    enable: false
+  card_post_count:
+    enable: true
+  card_webinfo:
+    enable: true
+  card_recent_post:
+    enable: true
+    limit: 5
+    sort: date
+  card_categories:
+    enable: true
+    limit: 10
+  card_tags:
+    enable: true
+    limit: 20
+    color: true
+
+# Toc
+toc:
+  post: true
+  page: false
+  number: true
+  expand: false
+  style_simple: false
+  scroll_percent: true
+
+# Post meta
+post_meta:
+  page:
+    date_type: both
+    categories: true
+  post:
+    date_type: both
+    categories: true
+
+# Busuanzi statistics
+busuanzi:
+  site_uv: false
+  site_pv: false
+  page_pv: false
+
+# Search
+search:
+  enable: false
+
+# Highlight
+highlight_theme: light
+
+# Categories/Tags page settings
+categories:
+  page:
+    frontmatter: false
+tags:
+  page:
+    frontmatter: false
+
+# Article settings
+post_edit:
+  enable: false
+post_copyright:
+  enable: false
+post_pagination: 2
+
+# Index
+index_layout: 3
+index_post_content:
+  method: 2
+  length: 200
+
+# Background
+background: '#f5f5f5'
