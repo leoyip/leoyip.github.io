@@ -27,7 +27,7 @@ subtitle:
 # Avatar
 avatar:
   img: /images/avatar.png
-  effect: true
+  effect: false
 
 # Theme color
 theme_color:
@@ -137,3 +137,8 @@ index_post_content:
 
 # Background
 background: '#f5f5f5'
+
+# Force stop avatar rotation
+inject:
+  head:
+    - '<style>.avatar-img img, .avatar-img, .site-author-image { animation: none !important; -webkit-animation: none !important; }</style>'
