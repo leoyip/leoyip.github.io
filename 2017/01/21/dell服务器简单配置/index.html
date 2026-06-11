@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Dell服务器简单配置 | 星夜航记</title><meta name="author" content="Leo Yip"><meta name="copyright" content="Leo Yip"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言这是Dell服务器装机教程的第3篇，全系列包括：  Dell服务器做磁盘阵列 Dell 服务器安装 Windows 2008 R2 操作系统 Dell服务器简单配置  Dell服务器简单配置包括以下内容：  检查磁盘分区情况 安装必要驱动程序 安装远程控制软件Radmin 激活 Windows 2008 R2  检查磁盘分区情况服务器安装完系统之后，应当及时检查磁盘划分情况。有时候会遇到磁盘2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dell服务器简单配置">
+<meta property="og:url" content="https://leoyip.github.io/2017/01/21/dell%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="星夜航记">
+<meta property="og:description" content="前言这是Dell服务器装机教程的第3篇，全系列包括：  Dell服务器做磁盘阵列 Dell 服务器安装 Windows 2008 R2 操作系统 Dell服务器简单配置  Dell服务器简单配置包括以下内容：  检查磁盘分区情况 安装必要驱动程序 安装远程控制软件Radmin 激活 Windows 2008 R2  检查磁盘分区情况服务器安装完系统之后，应当及时检查磁盘划分情况。有时候会遇到磁盘2">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leoyip.github.io/images/avatar.png">
+<meta property="article:published_time" content="2017-01-21T00:50:11.000Z">
+<meta property="article:modified_time" content="2026-06-11T07:34:19.709Z">
+<meta property="article:author" content="Leo Yip">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leoyip.github.io/images/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Dell服务器简单配置",
+  "url": "https://leoyip.github.io/2017/01/21/dell%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/",
+  "image": "https://leoyip.github.io/images/avatar.png",
+  "datePublished": "2017-01-21T00:50:11.000Z",
+  "dateModified": "2026-06-11T07:34:19.709Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Leo Yip",
+      "url": "https://leoyip.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://leoyip.github.io/2017/01/21/dell%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AE%80%E5%8D%95%E9%85%8D%E7%BD%AE/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.5"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Dell服务器简单配置',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.avatar-img img, .avatar-img, .site-author-image { animation: none !important; -webkit-animation: none !important; }</style><meta name="generator" content="Hexo 8.1.2"></head><body><div class="bg-animation" id="web_bg" style="background-color: #f5f5f5;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">63</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-th"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background: linear-gradient(160deg, #2c3e50, #2980b9);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">星夜航记</span></a><a class="nav-page-title" href="/"><span class="site-name">Dell服务器简单配置</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-th"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Dell服务器简单配置</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2017-01-21T00:50:11.000Z" title="发表于 2017-01-21 08:50:11">2017-01-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-11T07:34:19.709Z" title="更新于 2026-06-11 15:34:19">2026-06-11</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这是Dell服务器装机教程的第3篇，全系列包括：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/59826ffecbaf">Dell服务器做磁盘阵列</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/0f567a0126bf">Dell 服务器安装 Windows 2008 R2 操作系统</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jianshu.com/p/ea9ec683d319">Dell服务器简单配置</a></li>
+</ol>
+<p>Dell服务器简单配置包括以下内容：</p>
+<ul>
+<li>检查磁盘分区情况</li>
+<li>安装必要驱动程序</li>
+<li>安装远程控制软件Radmin</li>
+<li>激活 Windows 2008 R2</li>
+</ul>
+<h1 id="检查磁盘分区情况"><a href="#检查磁盘分区情况" class="headerlink" title="检查磁盘分区情况"></a>检查磁盘分区情况</h1><p>服务器安装完系统之后，应当及时检查磁盘划分情况。有时候会遇到磁盘2TB大小限制的情况，这个问题的解决会在其他教程中详细讲解。</p>
+<p>查看磁盘划分的步骤：</p>
+<ol>
+<li>点击windows按钮旁边的工具箱，在计算机管理页面左侧导航栏找到磁盘管理选项。</li>
+<li>打开磁盘管理器，即可查看磁盘划分情况。</li>
+<li>确认无误后关闭窗口。</li>
+</ol>
+<h1 id="安装必要驱动程序"><a href="#安装必要驱动程序" class="headerlink" title="安装必要驱动程序"></a>安装必要驱动程序</h1><p>Dell服务器安装系统之后，必须安装芯片组驱动、网卡驱动以及光纤卡驱动才可以正常使用。相应的驱动程序由供应商提供。提前准备好保存在U盘文件内。</p>
+<h2 id="安装芯片组驱动"><a href="#安装芯片组驱动" class="headerlink" title="安装芯片组驱动"></a>安装芯片组驱动</h2><h3 id="先安装-Net-Framework-3-5-1"><a href="#先安装-Net-Framework-3-5-1" class="headerlink" title="先安装 .Net Framework 3.5.1"></a>先安装 .Net Framework 3.5.1</h3><ol>
+<li><p>在开机显示的的<strong>角色与功能管理器</strong>中下拉，找到自定此服务器&gt;添加功能。</p>
+</li>
+<li><p>在<strong>选择功能</strong>页面，点击 “.NET Framework 3.5.1 功能”<br> 前的 “+”号，在展开列表中勾选“.NET Framework 3.5.1 ”。然后点击下一步，等待安装完毕即可。</p>
+</li>
+</ol>
+<h3 id="安装芯片组驱动软件"><a href="#安装芯片组驱动软件" class="headerlink" title="安装芯片组驱动软件"></a>安装芯片组驱动软件</h3><p>打开U盘，找到提前准备的驱动程序，点击安装<strong>Chipset_Driver_xxx.exe</strong>,按照默认设置安装即可。<br>**注意：**在安装芯片组驱动程序时，不要进行其他安装，芯片组驱动程序安装完毕立即重启服务器。</p>
+<h2 id="安装网卡驱动"><a href="#安装网卡驱动" class="headerlink" title="安装网卡驱动"></a>安装网卡驱动</h2><ol>
+<li>在工具文件夹下，打开**（3）Network<strong>文件夹，打开子文件夹</strong>Broadcom NetXtreme Network Drive vxx.x.x**文件夹。</li>
+<li>使用默认设置点击运行“Network_Driver_xxx.exe”即可。</li>
+</ol>
+<h2 id="安装光纤驱动"><a href="#安装光纤驱动" class="headerlink" title="安装光纤驱动"></a>安装光纤驱动</h2><ol>
+<li>在工具文件夹下，打开**（3）Network<strong>文件夹，打开子文件夹</strong>Qlogic BCM57xx and BCM57xxx NetWork Driver vxx.x.x**。</li>
+<li>使用默认设置安装驱动程序即可。</li>
+</ol>
+<h2 id="网络测试"><a href="#网络测试" class="headerlink" title="网络测试"></a>网络测试</h2><ol>
+<li>先进入： 控制面板&gt;网络和Inernet&gt;网络共享中心，点击左侧导航栏中的“更改适配器设置”。</li>
+<li>选择一个网络连接来设置IP，具体网口及IP以实际需要来设定。IP设置步骤略。</li>
+<li>IP设置好了需要测试能否ping通网关，ping测试步骤略。</li>
+</ol>
+<h1 id="安装远程控制软件Radmin"><a href="#安装远程控制软件Radmin" class="headerlink" title="安装远程控制软件Radmin"></a>安装远程控制软件Radmin</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Radmin 是一功能较多的安全远程控制软件，可以从多个地点访问同一台电脑，并使用高级文件传输、远程关机、Telnet、操作系统集成的 NT 安全性系统支持，以及其它功能。</p>
+<h2 id="安装配置"><a href="#安装配置" class="headerlink" title="安装配置"></a>安装配置</h2><ol>
+<li>将工具包文件夹目录下的Radmin.rar文件解压到“当前文件夹”。</li>
+<li>在解压出来的<strong>Radmin34</strong>文件夹内点击运行<strong>rsevr34cn.exe</strong>，按默认参数安装即可。</li>
+<li>安装完毕后，默认开始Radmin服务器设置。点击“选择”按钮，不勾选<strong>使用缺省的端口</strong>，具体端口根据需求设定，然后点击确定完成设置。</li>
+<li>返回Radmin服务器设置窗口，点击“使用权限···”，新建管理员帐号，设置用户名及密码。下方权限勾选全部存取。</li>
+</ol>
+<h2 id="激活Radmin-Server"><a href="#激活Radmin-Server" class="headerlink" title="激活Radmin Server"></a>激活Radmin Server</h2><ol>
+<li>在Radmin34文件夹内找到<strong>NewTrialStop23.rar</strong>，解压到“NewTrialStop23\”文件夹内。</li>
+<li>然后再在“NewTrialStop23\”文件夹内，以管理员权限运行<strong>install.exe</strong>。</li>
+<li>在弹出的命令行窗口中，按照提示操作完成激活。</li>
+</ol>
+<h1 id="激活-Windows-2008-R2"><a href="#激活-Windows-2008-R2" class="headerlink" title="激活 Windows 2008 R2"></a>激活 Windows 2008 R2</h1><p>我们使用windows loader激活系统，相应程序保存在工具包文件夹下面。<br>步骤：</p>
+<ol>
+<li><p>在工具包文件夹下找到<strong>windowsloader_x.x.x</strong>文件夹，运行该文件夹内的“Windows Loader.exe”文件，在弹出面板中选择“install”。</p>
+</li>
+<li><p>系统激活后，需要重启服务器。</p>
+</li>
+</ol>
+<p>到此Dell服务器的基本配置完成了，可以开始在上面部署相应的应用。</p>
+</article><div class="tag_share"><div class="post-share"><div class="social-share" data-image="/images/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2017/01/19/dell-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%81%9A%E7%A3%81%E7%9B%98%E9%98%B5%E5%88%97/" title="Dell-服务器做磁盘阵列"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Dell-服务器做磁盘阵列</div></div><div class="info-2"><div class="info-item-1">前言这是Dell服务器装机教程的第1篇，全系列包括：  Dell服务器做磁盘阵列 Dell 服务器安装 Windows 2008 R2 操作系统 Dell服务器简单配置  在安装系统前，需要做一些准备工作。做磁盘阵列以保护服务器的数据安全，设置适当的条带宽度以提高服务器的I&#x2F;O性能。限于篇幅，本文不介绍磁盘阵列以及条带大小的背景知识，只讲解设置的步骤。 步骤预览：  进入设备管理平...</div></div></div></a><a class="pagination-related" href="/2017/01/27/%E3%80%8A%E4%B8%89%E4%BD%93%E3%80%8B%E7%9A%84%E7%88%B1%E4%B8%8E%E5%AD%A4%E7%8B%AC/" title="《三体》的爱与孤独"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">《三体》的爱与孤独</div></div><div class="info-2"><div class="info-item-1"> 我本想细细欣赏史诗级科幻巨作的无限想象力，却不料被大刘塞了一口风味纯正的狗粮，而且还是罗辑和他所想象出来的小说人物的爱情故事。一个男人做白日梦都做得那么细致清新，完全可以拍成一部又暖又慢的文艺爱情电影，所有的镜头一律是浅色格调。 第一次读三体时，我完全是用做阅读的方法来看的：看段首段尾一句，猜出大意就跳到下一段，这样以极快的速度了解到了三体三部曲的全貌。现在第二遍读，严格来说应该是听，是在...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Leo Yip</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">63</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">7</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/leoyip" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA%E6%83%85%E5%86%B5"><span class="toc-number">2.</span> <span class="toc-text">检查磁盘分区情况</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E9%A9%B1%E5%8A%A8%E7%A8%8B%E5%BA%8F"><span class="toc-number">3.</span> <span class="toc-text">安装必要驱动程序</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%8A%AF%E7%89%87%E7%BB%84%E9%A9%B1%E5%8A%A8"><span class="toc-number">3.1.</span> <span class="toc-text">安装芯片组驱动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%88%E5%AE%89%E8%A3%85-Net-Framework-3-5-1"><span class="toc-number">3.1.1.</span> <span class="toc-text">先安装 .Net Framework 3.5.1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%8A%AF%E7%89%87%E7%BB%84%E9%A9%B1%E5%8A%A8%E8%BD%AF%E4%BB%B6"><span class="toc-number">3.1.2.</span> <span class="toc-text">安装芯片组驱动软件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8"><span class="toc-number">3.2.</span> <span class="toc-text">安装网卡驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%85%89%E7%BA%A4%E9%A9%B1%E5%8A%A8"><span class="toc-number">3.3.</span> <span class="toc-text">安装光纤驱动</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E6%B5%8B%E8%AF%95"><span class="toc-number">3.4.</span> <span class="toc-text">网络测试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E8%BD%AF%E4%BB%B6Radmin"><span class="toc-number">4.</span> <span class="toc-text">安装远程控制软件Radmin</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">4.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE"><span class="toc-number">4.2.</span> <span class="toc-text">安装配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BF%80%E6%B4%BBRadmin-Server"><span class="toc-number">4.3.</span> <span class="toc-text">激活Radmin Server</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%BF%80%E6%B4%BB-Windows-2008-R2"><span class="toc-number">5.</span> <span class="toc-text">激活 Windows 2008 R2</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/11/%E8%AE%A9%E5%8D%9A%E5%AE%A2%E9%87%8D%E6%96%B0%E6%B4%BB%E8%BF%87%E6%9D%A5/" title="让博客重新活过来">让博客重新活过来</a><time datetime="2026-06-11T10:50:00.000Z" title="发表于 2026-06-11 18:50:00">2026-06-11</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/07/29/%E8%A5%BF%E8%99%B9%E5%B8%82%E9%A6%96%E5%AF%8C%E5%BD%B1%E8%AF%84/" title="西虹市首富影评">西虹市首富影评</a><time datetime="2018-07-29T07:29:41.000Z" title="发表于 2018-07-29 15:29:41">2018-07-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/06/07/%E7%82%B8%E4%BA%86%E9%82%A3%E4%B8%AA%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83/" title="炸了那个数据中心">炸了那个数据中心</a><time datetime="2018-06-07T14:40:00.000Z" title="发表于 2018-06-07 22:40:00">2018-06-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/05/08/005-%E5%BC%80%E5%A7%8B%E8%87%AA%E5%B7%B1%E5%81%9A%E9%A5%AD/" title="#005 开始自己做饭">#005 开始自己做饭</a><time datetime="2018-05-08T15:50:00.000Z" title="发表于 2018-05-08 23:50:00">2018-05-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2018/05/08/004-%E7%94%9F%E6%B4%BB%E7%9A%84%E6%84%8F%E4%B9%89/" title="#004 生活的意义">#004 生活的意义</a><time datetime="2018-05-08T15:48:00.000Z" title="发表于 2018-05-08 23:48:00">2018-05-08</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2016 - 2026 By Leo Yip</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.5</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.5"></script><script src="/js/main.js?v=5.5.5"></script><div class="js-pjax"></div></div></body></html>
