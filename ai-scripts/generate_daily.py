@@ -287,7 +287,7 @@ def generate_daily(items: list[dict], date_str: str) -> str:
     lines.append("---")
     lines.append(f"title: AI 日报 · {bj_date}")
     lines.append(f"date: {date_str} 08:00:00")
-    lines.append("categories: 技术")
+    lines.append("categories: AI日报")
     lines.append("tags:")
     lines.append("  - AI")
     lines.append("  - 日报")

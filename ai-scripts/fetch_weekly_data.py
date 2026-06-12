@@ -219,7 +219,7 @@ def format_weekly_md(
     lines.append("---")
     lines.append(f"title: AI 周报深度点评 · {now.year}年{month}月第{week_num}周")
     lines.append(f"date: {now.strftime('%Y-%m-%d %H:%M:%S')}")
-    lines.append("categories: 技术")
+    lines.append("categories: AI周报")
     lines.append("tags:")
     lines.append("  - AI")
     lines.append("  - 人工智能")
