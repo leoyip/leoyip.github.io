@@ -386,39 +386,48 @@ def main():
     since_iso = since_dt.strftime("%Y-%m-%dT00:00:00Z")
 
     print(f"📡 拉取 {date_str} AI 日报数据...")
-    print(f"   API: items?mode=selected&since={since_iso}&take=100")
+    print(f"   优先使用 daily 端点（按日期返回独立内容）")
 
+    items = []
+    daily_failed = False
+
+    # 优先：daily 端点，按日期返回当日精选
     try:
-        items = fetch_items(since_iso)
+        daily_url = f"{API_BASE}/api/public/daily/{date_str}"
+        print(f"   API: daily/{date_str}")
+        req = urllib.request.Request(daily_url, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=30) as resp:
+            daily = json.loads(resp.read().decode("utf-8"))
+        # 转为 items 格式
+        cat_map = {v: k for k, v in SECTION_LABELS.items()}
+        for section in daily.get("sections", []):
+            cat = cat_map.get(section["label"])
+            if not cat:
+                continue
+            for it in section.get("items", []):
+                items.append({
+                    "title": it.get("title", ""),
+                    "source": it.get("sourceName", ""),
+                    "url": it.get("sourceUrl", ""),
+                    "summary": it.get("summary", ""),
+                    "category": cat,
+                    "publishedAt": it.get("publishedAt"),
+                })
+        print(f"   ✅ daily 端点获取到 {len(items)} 条")
     except Exception as e:
-        print(f"❌ API 请求失败: {e}")
-        sys.exit(1)
+        print(f"   ⚠️  daily 端点失败: {e}")
+        daily_failed = True
 
-    print(f"   获取到 {len(items)} 条精选条目")
-
+    # 回退：selected 端点（用 since+take，接受可能的内容重叠）
     if not items:
-        print("⚠️  当日无数据，尝试使用 daily 端点...")
+        since_iso = (target_date - timedelta(days=1)).strftime("%Y-%m-%dT00:00:00Z")
         try:
-            daily_url = f"{API_BASE}/api/public/daily/{date_str}"
-            req = urllib.request.Request(daily_url, headers={"User-Agent": UA})
-            with urllib.request.urlopen(req, timeout=30) as resp:
-                daily = json.loads(resp.read().decode("utf-8"))
-            # 转为 items 格式
-            for section in daily.get("sections", []):
-                cat_map = {v: k for k, v in SECTION_LABELS.items()}
-                cat = cat_map.get(section["label"])
-                for it in section.get("items", []):
-                    items.append({
-                        "title": it.get("title", ""),
-                        "source": it.get("sourceName", ""),
-                        "url": it.get("sourceUrl", ""),
-                        "summary": it.get("summary", ""),
-                        "category": cat,
-                        "publishedAt": it.get("publishedAt"),
-                    })
-            print(f"   从 daily 端点补充到 {len(items)} 条")
+            print(f"   API(fallback): items?mode=selected&since={since_iso}&take=100")
+            items = fetch_items(since_iso)
+            print(f"   ✅ fallback 获取到 {len(items)} 条")
         except Exception as e:
-            print(f"⚠️  daily 端点也失败了: {e}")
+            print(f"   ❌ fallback 也失败: {e}")
+            sys.exit(1)
 
     if not items:
         print("❌ 无数据可生成日报")
