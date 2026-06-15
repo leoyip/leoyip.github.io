@@ -348,9 +348,6 @@ def generate_daily(items: list[dict], date_str: str) -> str:
                 lines.append("")
 
             if summary:
-                # 截断到 120 字
-                if len(summary) > 120:
-                    summary = summary[:117] + "..."
                 lines.append(f"{summary}")
                 lines.append("")
 
