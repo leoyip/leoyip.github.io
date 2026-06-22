@@ -28,6 +28,7 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
+  - 'files/**'
 
 # Writing
 new_post_name: :title.md
@@ -109,6 +110,14 @@ theme: butterfly
 #    enable: true
 #  footer:
 #    since: 2016
+
+# symbols_count_time
+symbols_count_time:
+  symbols: true
+  time: true
+  total_symbols: true
+  total_time: true
+  exclude_codeblock: false
 
 # Deployment
 deploy:
