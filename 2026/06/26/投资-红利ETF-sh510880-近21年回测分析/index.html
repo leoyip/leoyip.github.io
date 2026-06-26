@@ -1,0 +1,429 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>红利ETF(sh510880)近21年回测分析 — 年化9.88%的「压舱石」 | 星夜航记</title><meta name="author" content="Leo Yip"><meta name="copyright" content="Leo Yip"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="📊 从2005年到2026年，上证红利指数穿越三轮牛熊，用21年数据回答一个问题：红利策略到底值不值得长期持有？   🏆 先上结论   项目 数值    推荐标的 sh510880 红利ETF华泰柏瑞   成立时间 2006-11-17（A股首只红利ETF）   跟踪指数 上证红利指数 (sh000015)   基金规模 213亿元   管理费 0.50%&#x2F;年   价格CAGR 5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="红利ETF(sh510880)近21年回测分析 — 年化9.88%的「压舱石」">
+<meta property="og:url" content="https://leoyip.github.io/2026/06/26/%E6%8A%95%E8%B5%84-%E7%BA%A2%E5%88%A9ETF-sh510880-%E8%BF%9121%E5%B9%B4%E5%9B%9E%E6%B5%8B%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="星夜航记">
+<meta property="og:description" content="📊 从2005年到2026年，上证红利指数穿越三轮牛熊，用21年数据回答一个问题：红利策略到底值不值得长期持有？   🏆 先上结论   项目 数值    推荐标的 sh510880 红利ETF华泰柏瑞   成立时间 2006-11-17（A股首只红利ETF）   跟踪指数 上证红利指数 (sh000015)   基金规模 213亿元   管理费 0.50%&#x2F;年   价格CAGR 5">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leoyip.github.io/images/avatar.png">
+<meta property="article:published_time" content="2026-06-26T07:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-26T07:21:46.666Z">
+<meta property="article:author" content="Leo Yip">
+<meta property="article:tag" content="A股">
+<meta property="article:tag" content="ETF">
+<meta property="article:tag" content="回测">
+<meta property="article:tag" content="红利">
+<meta property="article:tag" content="资产配置">
+<meta property="article:tag" content="高股息">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leoyip.github.io/images/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "红利ETF(sh510880)近21年回测分析 — 年化9.88%的「压舱石」",
+  "url": "https://leoyip.github.io/2026/06/26/%E6%8A%95%E8%B5%84-%E7%BA%A2%E5%88%A9ETF-sh510880-%E8%BF%9121%E5%B9%B4%E5%9B%9E%E6%B5%8B%E5%88%86%E6%9E%90/",
+  "image": "https://leoyip.github.io/images/avatar.png",
+  "datePublished": "2026-06-26T07:00:00.000Z",
+  "dateModified": "2026-06-26T07:21:46.666Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Leo Yip",
+      "url": "https://leoyip.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://leoyip.github.io/2026/06/26/%E6%8A%95%E8%B5%84-%E7%BA%A2%E5%88%A9ETF-sh510880-%E8%BF%9121%E5%B9%B4%E5%9B%9E%E6%B5%8B%E5%88%86%E6%9E%90/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.5"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '红利ETF(sh510880)近21年回测分析 — 年化9.88%的「压舱石」',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.avatar-img img, .avatar-img, .site-author-image { animation: none !important; -webkit-animation: none !important; }</style><meta name="generator" content="Hexo 8.1.2"></head><body><div class="bg-animation" id="web_bg" style="background-color: #f5f5f5;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">80</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-th"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background: linear-gradient(160deg, #2c3e50, #2980b9);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">星夜航记</span></a><a class="nav-page-title" href="/"><span class="site-name">红利ETF(sh510880)近21年回测分析 — 年化9.88%的「压舱石」</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-th"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">红利ETF(sh510880)近21年回测分析 — 年化9.88%的「压舱石」</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-06-26T07:00:00.000Z" title="发表于 2026-06-26 15:00:00">2026-06-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-06-26T07:21:46.666Z" title="更新于 2026-06-26 15:21:46">2026-06-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%95%E8%B5%84%E5%88%86%E6%9E%90/">投资分析</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>📊 从2005年到2026年，上证红利指数穿越三轮牛熊，用21年数据回答一个问题：红利策略到底值不值得长期持有？</p>
+</blockquote>
+<hr>
+<h2 id="🏆-先上结论"><a href="#🏆-先上结论" class="headerlink" title="🏆 先上结论"></a>🏆 先上结论</h2><table>
+<thead>
+<tr>
+<th>项目</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>推荐标的</strong></td>
+<td>sh510880 红利ETF华泰柏瑞</td>
+</tr>
+<tr>
+<td><strong>成立时间</strong></td>
+<td>2006-11-17（A股首只红利ETF）</td>
+</tr>
+<tr>
+<td><strong>跟踪指数</strong></td>
+<td>上证红利指数 (sh000015)</td>
+</tr>
+<tr>
+<td><strong>基金规模</strong></td>
+<td>213亿元</td>
+</tr>
+<tr>
+<td><strong>管理费</strong></td>
+<td>0.50%&#x2F;年</td>
+</tr>
+<tr>
+<td><strong>价格CAGR</strong></td>
+<td>5.88%</td>
+</tr>
+<tr>
+<td><strong>含息估算CAGR</strong></td>
+<td><strong>~9.88%</strong></td>
+</tr>
+<tr>
+<td><strong>最大回撤</strong></td>
+<td>72.25%（2008年金融危机）</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>1万元在2005年投入，到2026年仅价格回报约3.18万，含股息再投资约6.74万。</p>
+</blockquote>
+<hr>
+<h2 id="📈-21年回测全貌"><a href="#📈-21年回测全貌" class="headerlink" title="📈 21年回测全貌"></a>📈 21年回测全貌</h2><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>数值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>回测区间</td>
+<td>2005-09-30 至 2026-06-26（20.2年）</td>
+</tr>
+<tr>
+<td>起始点位</td>
+<td>911 → 2899</td>
+</tr>
+<tr>
+<td>价格总回报</td>
+<td>218.14%</td>
+</tr>
+<tr>
+<td>年化波动率</td>
+<td>27.71%</td>
+</tr>
+<tr>
+<td>夏普比率</td>
+<td>0.26</td>
+</tr>
+<tr>
+<td>索提诺比率</td>
+<td>0.26</td>
+</tr>
+<tr>
+<td>上涨月份占比</td>
+<td>54.3%（132&#x2F;243）</td>
+</tr>
+<tr>
+<td>最佳单月</td>
+<td>2007-04 +30.91%</td>
+</tr>
+<tr>
+<td>最差单月</td>
+<td>2008-10 -28.61%</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="📅-各年度回报（一目了然）"><a href="#📅-各年度回报（一目了然）" class="headerlink" title="📅 各年度回报（一目了然）"></a>📅 各年度回报（一目了然）</h2><table>
+<thead>
+<tr>
+<th>年份</th>
+<th>回报</th>
+<th>年份</th>
+<th>回报</th>
+<th>年份</th>
+<th>回报</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>2005</td>
+<td>-2.2%</td>
+<td>2013</td>
+<td>-19.6%</td>
+<td>2021</td>
+<td>+12.5%</td>
+</tr>
+<tr>
+<td>2006</td>
+<td><strong>+87.3%</strong></td>
+<td>2014</td>
+<td>+57.9%</td>
+<td>2022</td>
+<td>+0.1%</td>
+</tr>
+<tr>
+<td>2007</td>
+<td><strong>+120.1%</strong></td>
+<td>2015</td>
+<td>+12.6%</td>
+<td>2023</td>
+<td>-0.4%</td>
+</tr>
+<tr>
+<td>2008</td>
+<td><strong>-63.7%</strong></td>
+<td>2016</td>
+<td>+15.7%</td>
+<td>2024</td>
+<td>+9.2%</td>
+</tr>
+<tr>
+<td>2009</td>
+<td>+71.9%</td>
+<td>2017</td>
+<td>+12.1%</td>
+<td>2025</td>
+<td>-1.0%</td>
+</tr>
+<tr>
+<td>2010</td>
+<td>-12.4%</td>
+<td>2018</td>
+<td>-22.7%</td>
+<td>2026</td>
+<td>-7.6%</td>
+</tr>
+<tr>
+<td>2011</td>
+<td>-18.7%</td>
+<td>2019</td>
+<td>+6.6%</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2012</td>
+<td>+1.2%</td>
+<td>2020</td>
+<td>-2.4%</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>一个明显趋势：收益在收敛。</strong> 2006-2009年波动范围 -64%<del>+120%，2015年后收窄到 -11%</del>+15%。这不是坏事——<strong>稳比快更重要</strong>。</p>
+<hr>
+<h2 id="⚖️-同类ETF对比"><a href="#⚖️-同类ETF对比" class="headerlink" title="⚖️ 同类ETF对比"></a>⚖️ 同类ETF对比</h2><table>
+<thead>
+<tr>
+<th></th>
+<th align="center">sh510880 ✅</th>
+<th align="center">sh512890 红利低波</th>
+<th align="center">sh515080 中证红利</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>成立时间</td>
+<td align="center"><strong>2006</strong></td>
+<td align="center">2018</td>
+<td align="center">2019</td>
+</tr>
+<tr>
+<td>规模</td>
+<td align="center">213亿</td>
+<td align="center"><strong>318亿</strong></td>
+<td align="center">114亿</td>
+</tr>
+<tr>
+<td>管理费</td>
+<td align="center">0.50%</td>
+<td align="center">0.50%</td>
+<td align="center"><strong>0.20%</strong></td>
+</tr>
+<tr>
+<td>持仓特征</td>
+<td align="center">煤炭+银行+交运</td>
+<td align="center">银行+家电+交运</td>
+<td align="center">煤炭+资源+银行</td>
+</tr>
+</tbody></table>
+<p>选 sh510880 的核心原因：<strong>历史最久，穿越多轮牛熊验证</strong>。</p>
+<hr>
+<h2 id="🔍-收益收敛的三个原因"><a href="#🔍-收益收敛的三个原因" class="headerlink" title="🔍 收益收敛的三个原因"></a>🔍 收益收敛的三个原因</h2><ol>
+<li><strong>市场规模扩大</strong>：A股从8万亿到80万亿，”船大难掉头”</li>
+<li><strong>机构化程度提高</strong>：公募、保险、外资占比提升，减少极端波动</li>
+<li><strong>经济增速换挡</strong>：从10%+到5%左右，企业盈利波动收窄</li>
+</ol>
+<hr>
+<h2 id="⚠️-必须正视的风险"><a href="#⚠️-必须正视的风险" class="headerlink" title="⚠️ 必须正视的风险"></a>⚠️ 必须正视的风险</h2><ul>
+<li><strong>最大回撤72%</strong>：2008年金融危机中，指数从4929跌至1368</li>
+<li><strong>高度周期性</strong>：持仓集中在煤炭、银行、钢铁等周期行业</li>
+<li><strong>近年表现疲弱</strong>：2023-2026年持续低迷，YTD已跌11%</li>
+<li><strong>行业集中风险</strong>：前10大持仓以煤炭为主，单一行业风险大</li>
+<li><strong>管理费偏高</strong>：0.5%，比招商中证红利ETF（0.2%）贵</li>
+</ul>
+<hr>
+<h2 id="💡-操作建议"><a href="#💡-操作建议" class="headerlink" title="💡 操作建议"></a>💡 操作建议</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>适合人群</strong></td>
+<td>追求稳定股息收入的长期投资者、定投策略执行者</td>
+</tr>
+<tr>
+<td><strong>配置比例</strong></td>
+<td>占权益仓位的15-25%作为防御性底仓</td>
+</tr>
+<tr>
+<td><strong>策略</strong></td>
+<td>定期定额 + 股息再投资，利用复利效应</td>
+</tr>
+<tr>
+<td><strong>入场时机</strong></td>
+<td>当前净值3.05元处于近年低位，可分批建仓</td>
+</tr>
+<tr>
+<td><strong>替代选择</strong></td>
+<td>若更看重低费率，考虑 sh515080 中证红利ETF（管理费仅0.2%）</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="🎯-修正后的收益预期"><a href="#🎯-修正后的收益预期" class="headerlink" title="🎯 修正后的收益预期"></a>🎯 修正后的收益预期</h2><p>基于收敛趋势：</p>
+<ul>
+<li><strong>保守</strong>：价格CAGR 3-5% + 股息4% &#x3D; 综合年化 7-9%</li>
+<li><strong>中性</strong>：价格CAGR 5-7% + 股息4% &#x3D; 综合年化 9-11%</li>
+<li><strong>乐观</strong>：价格CAGR 8-10% + 股息4% &#x3D; 综合年化 12-14%</li>
+</ul>
+<p>（对比历史含息约9.88%，未来可能略低）</p>
+<hr>
+<blockquote>
+<p>📄 完整分析报告（含可交互图表）见本地文件。数据来源：NeoData 金融数据服务、腾讯自选股。</p>
+<p>⚠️ 以上内容由 AI 基于公开信息整理生成，<strong>仅供参考，不构成任何投资建议</strong>。投资有风险，决策需谨慎。</p>
+</blockquote>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/A%E8%82%A1/">A股</a><a class="post-meta__tags" href="/tags/ETF/">ETF</a><a class="post-meta__tags" href="/tags/%E7%BA%A2%E5%88%A9/">红利</a><a class="post-meta__tags" href="/tags/%E5%9B%9E%E6%B5%8B/">回测</a><a class="post-meta__tags" href="/tags/%E9%AB%98%E8%82%A1%E6%81%AF/">高股息</a><a class="post-meta__tags" href="/tags/%E8%B5%84%E4%BA%A7%E9%85%8D%E7%BD%AE/">资产配置</a></div><div class="post-share"><div class="social-share" data-image="/images/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/06/26/AI-%E6%97%A5%E6%8A%A5-2026-06-26/" title="AI 日报 · 2026年06月26日"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">AI 日报 · 2026年06月26日</div></div><div class="info-2"><div class="info-item-1"> 📰 今日 AI 精选资讯速递，五大版块共 13 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  🤖 模型发布&#x2F;更新1. Ornith-1.0 开源模型家族发布，专注 Agentic Coding 全参数规模🏷️ 📌 代码模型 阿里 Agent 代码 来源: X：Berry Xia (@...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/06/22/%E4%B8%87%E5%8D%8E%E5%8C%96%E5%AD%A6-600309-%E5%9F%BA%E6%9C%AC%E9%9D%A2%E5%88%86%E6%9E%90-2026-06-22/" title="万华化学（600309）基本面与估值分析报告"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-22</div><div class="info-item-2">万华化学（600309）基本面与估值分析报告</div></div><div class="info-2"><div class="info-item-1">万华化学（600309）基本面与估值分析 分析日期：2026-06-22评分：7.5&#x2F;10 · 估值偏低 · 周期底部拐点确认  核心结论 业绩拐点已确认：2025Q3→Q4→2026Q1 归母净利润连续3个季度同比转正（+3.96% → +73.73% → +20.62%） PB 历史极低：当前 PB 2.01，处于近5年 9.67% 分位 前瞻 PE 偏低：机构一致预期2026...</div></div></div></a><a class="pagination-related" href="/2026/06/17/%E5%8D%8A%E5%AF%BC%E4%BD%93ETF-vs-%E7%A7%91%E5%88%9B50ETF-%E5%BB%BA%E4%BB%93%E6%AD%A2%E7%9B%88%E6%8C%87%E5%8D%97/" title="半导体ETF vs 科创50ETF：小白也能看懂的建仓止盈指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-06-17</div><div class="info-item-2">半导体ETF vs 科创50ETF：小白也能看懂的建仓止盈指南</div></div><div class="info-2"><div class="info-item-1">用大白话拆解两只热门科技ETF的持仓差异、风险特征和分批止盈方案——不管你是刚开户的新手还是想优化仓位的老玩家，这篇都能帮到你。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Leo Yip</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">80</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/leoyip" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8F%86-%E5%85%88%E4%B8%8A%E7%BB%93%E8%AE%BA"><span class="toc-number">1.</span> <span class="toc-text">🏆 先上结论</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%88-21%E5%B9%B4%E5%9B%9E%E6%B5%8B%E5%85%A8%E8%B2%8C"><span class="toc-number">2.</span> <span class="toc-text">📈 21年回测全貌</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%85-%E5%90%84%E5%B9%B4%E5%BA%A6%E5%9B%9E%E6%8A%A5%EF%BC%88%E4%B8%80%E7%9B%AE%E4%BA%86%E7%84%B6%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">📅 各年度回报（一目了然）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9A%96%EF%B8%8F-%E5%90%8C%E7%B1%BBETF%E5%AF%B9%E6%AF%94"><span class="toc-number">4.</span> <span class="toc-text">⚖️ 同类ETF对比</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%94%8D-%E6%94%B6%E7%9B%8A%E6%94%B6%E6%95%9B%E7%9A%84%E4%B8%89%E4%B8%AA%E5%8E%9F%E5%9B%A0"><span class="toc-number">5.</span> <span class="toc-text">🔍 收益收敛的三个原因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E2%9A%A0%EF%B8%8F-%E5%BF%85%E9%A1%BB%E6%AD%A3%E8%A7%86%E7%9A%84%E9%A3%8E%E9%99%A9"><span class="toc-number">6.</span> <span class="toc-text">⚠️ 必须正视的风险</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%92%A1-%E6%93%8D%E4%BD%9C%E5%BB%BA%E8%AE%AE"><span class="toc-number">7.</span> <span class="toc-text">💡 操作建议</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%8E%AF-%E4%BF%AE%E6%AD%A3%E5%90%8E%E7%9A%84%E6%94%B6%E7%9B%8A%E9%A2%84%E6%9C%9F"><span class="toc-number">8.</span> <span class="toc-text">🎯 修正后的收益预期</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/26/%E6%8A%95%E8%B5%84-%E7%BA%A2%E5%88%A9ETF-sh510880-%E8%BF%9121%E5%B9%B4%E5%9B%9E%E6%B5%8B%E5%88%86%E6%9E%90/" title="红利ETF(sh510880)近21年回测分析 — 年化9.88%的「压舱石」">红利ETF(sh510880)近21年回测分析 — 年化9.88%的「压舱石」</a><time datetime="2026-06-26T07:00:00.000Z" title="发表于 2026-06-26 15:00:00">2026-06-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/26/AI-%E6%97%A5%E6%8A%A5-2026-06-26/" title="AI 日报 · 2026年06月26日">AI 日报 · 2026年06月26日</a><time datetime="2026-06-26T00:00:00.000Z" title="发表于 2026-06-26 08:00:00">2026-06-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/25/AI-%E6%97%A5%E6%8A%A5-2026-06-25/" title="AI 日报 · 2026年06月25日">AI 日报 · 2026年06月25日</a><time datetime="2026-06-25T00:00:00.000Z" title="发表于 2026-06-25 08:00:00">2026-06-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/24/AI-%E6%97%A5%E6%8A%A5-2026-06-24/" title="AI 日报 · 2026年06月24日">AI 日报 · 2026年06月24日</a><time datetime="2026-06-24T00:00:00.000Z" title="发表于 2026-06-24 08:00:00">2026-06-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/06/22/%E4%B8%87%E5%8D%8E%E5%8C%96%E5%AD%A6-600309-%E5%9F%BA%E6%9C%AC%E9%9D%A2%E5%88%86%E6%9E%90-2026-06-22/" title="万华化学（600309）基本面与估值分析报告">万华化学（600309）基本面与估值分析报告</a><time datetime="2026-06-22T10:00:00.000Z" title="发表于 2026-06-22 18:00:00">2026-06-22</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2016 - 2026 By Leo Yip</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.5</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.5"></script><script src="/js/main.js?v=5.5.5"></script><div class="js-pjax"></div></div></body></html>
