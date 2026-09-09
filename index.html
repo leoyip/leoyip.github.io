@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>星夜航记 - 记录和创造生活，分享和交流知识</title><meta name="author" content="Leo Yip"><meta name="copyright" content="Leo Yip"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta property="og:type" content="website">
+<meta property="og:title" content="星夜航记">
+<meta property="og:url" content="https://leoyip.github.io/index.html">
+<meta property="og:site_name" content="星夜航记">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leoyip.github.io/images/avatar.png">
+<meta property="article:author" content="Leo Yip">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leoyip.github.io/images/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "星夜航记",
+  "alternateName": [
+    "记录和创造生活，分享和交流知识",
+    "leoyip.github.io"
+  ],
+  "url": "https://leoyip.github.io/"
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://leoyip.github.io/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.5"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '星夜航记',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'home'
+}</script><style>.avatar-img img, .avatar-img, .site-author-image { animation: none !important; -webkit-animation: none !important; }</style><meta name="generator" content="Hexo 8.1.2"></head><body><div class="bg-animation" id="web_bg" style="background-color: #f5f5f5;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">116</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-th"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="full_page fixed" id="page-header" style="background-image: url(/images/banner.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">星夜航记</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-th"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="site-info"><h1 id="site-title">星夜航记</h1><div id="site-subtitle"><span id="subtitle"></span></div><div id="site_social_icons"><a class="social-icon" href="https://github.com/leoyip" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></div></div><div id="scroll-down"><i class="fas fa-angle-down scroll-down-effects"></i></div></header><main class="layout" id="content-inner"><div class="recent-posts nc" id="recent-posts"><div class="recent-post-items"><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/09/10/AI-%E6%97%A5%E6%8A%A5-2026-09-10/" title="AI 日报 · 2026年09月10日">AI 日报 · 2026年09月10日</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-10T00:00:00.000Z" title="发表于 2026-09-10 08:00:00">2026-09-10</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-09T16:03:44.169Z" title="更新于 2026-09-10 00:03:44">2026-09-10</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a></span></div><div class="content"> 📰 今日 AI 精选资讯速递，五大版块共 8 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  📦 产品发布&#x2F;更新1. OpenAI 上线 GPT Image 2.5，作者实测新版与 image2 的生图差异🏷️ OpenAI 来源: 公众号：卡尔的AI沃茨 · 15小时前 OpenAI ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/09/09/AI-%E6%97%A5%E6%8A%A5-2026-09-09/" title="AI 日报 · 2026年09月09日">AI 日报 · 2026年09月09日</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-09T00:00:00.000Z" title="发表于 2026-09-09 08:00:00">2026-09-09</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-08T16:00:59.166Z" title="更新于 2026-09-09 00:00:59">2026-09-09</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a></span></div><div class="content"> 📰 今日 AI 精选资讯速递，五大版块共 3 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  🏭 行业动态1. Mistral 完成 30 亿欧元 D 轮融资，估值超 210 亿欧元🏷️ Mistral 来源: Mistral AI：News（网页） · 10小时前 Mistral 宣布完成 30...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/09/08/AI-%E6%97%A5%E6%8A%A5-2026-09-08/" title="AI 日报 · 2026年09月08日">AI 日报 · 2026年09月08日</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-08T00:00:00.000Z" title="发表于 2026-09-08 08:00:00">2026-09-08</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-08T03:09:36.288Z" title="更新于 2026-09-08 11:09:36">2026-09-08</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a></span></div><div class="content"> 📰 今日 AI 精选资讯速递，五大版块共 2 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  🏭 行业动态1. Anthropic 据报道签约高达 5170 亿美元算力协议，锁定至少 14.8 GW 算力🏷️ Anthropic 算力 来源: The Decoder：AI News（RSS） 据 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/09/07/AI-%E5%91%A8%E6%8A%A5%E6%B7%B1%E8%AF%84-2026-09-%E7%AC%AC36%E5%91%A8/" title="AI 周报深度点评 · 2026年8月第36周">AI 周报深度点评 · 2026年8月第36周</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-07T02:27:36.000Z" title="发表于 2026-09-07 10:27:36">2026-09-07</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-07T02:28:57.145Z" title="更新于 2026-09-07 10:28:57">2026-09-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E5%91%A8%E6%8A%A5/">AI周报</a></span></div><div class="content"> 📊 本周（2026-08-31 - 2026-09-07）AI 行业深度点评。从 88 条精选资讯中提炼 5 个核心话题，逐一分析。  📋 本周综述 💬 以下为本周 AI 圈最值得关注的动态概述。AI 将基于话题聚类数据，以叙事方式串联本周关键事件，讲清楚来龙去脉和行业影响。  本周AI行业可以用”军备竞赛升级”来概括。OpenAI继续高歌猛进，GPT-6 Astra不仅在Code ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/09/07/AI-%E6%97%A5%E6%8A%A5-2026-09-07/" title="AI 日报 · 2026年09月07日">AI 日报 · 2026年09月07日</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-07T00:00:00.000Z" title="发表于 2026-09-07 08:00:00">2026-09-07</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-07T02:30:43.365Z" title="更新于 2026-09-07 10:30:43">2026-09-07</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a></span></div><div class="content"> 📰 今日 AI 精选资讯速递，五大版块共 3 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  💡 技巧与观点1. OpenAI 发布内部研究加速报告：已达成自动化研究实习生目标，推进 2028 年 3 月自动化 AI 研究员🏷️ OpenAI 来源: OpenAI：官网动态（RSS · 排除企业&...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/09/04/AI-%E6%97%A5%E6%8A%A5-2026-09-04/" title="AI 日报 · 2026年09月04日">AI 日报 · 2026年09月04日</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-04T00:00:00.000Z" title="发表于 2026-09-04 08:00:00">2026-09-04</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-03T16:09:10.060Z" title="更新于 2026-09-04 00:09:10">2026-09-04</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a></span></div><div class="content"> 📰 今日 AI 精选资讯速递，五大版块共 6 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  🤖 模型发布&#x2F;更新1. Google DeepMind 发布 WeatherNext 3 全球天气 AI 模型， hourly 更新且分辨率较上一代提升约 5 倍🏷️ Google 搜索 评估 ...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/09/02/AI-%E6%97%A5%E6%8A%A5-2026-09-02/" title="AI 日报 · 2026年09月02日">AI 日报 · 2026年09月02日</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-02T00:00:00.000Z" title="发表于 2026-09-02 08:00:00">2026-09-02</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-02T03:20:11.620Z" title="更新于 2026-09-02 11:20:11">2026-09-02</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a></span></div><div class="content"> 📰 今日 AI 精选资讯速递，五大版块共 9 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  🤖 模型发布&#x2F;更新1. OpenAI 评定 Astra 达到网络安全 Critical 能力阈值，将受限发布🏷️ OpenAI 安全 来源: OpenAI：官网动态（RSS · 排除企业&#x2...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/08/31/AI-%E5%91%A8%E6%8A%A5%E6%B7%B1%E8%AF%84-2026-08-%E7%AC%AC35%E5%91%A8/" title="AI 周报深度点评 · 2026年8月第35周">AI 周报深度点评 · 2026年8月第35周</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-31T09:01:08.000Z" title="发表于 2026-08-31 17:01:08">2026-08-31</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-31T09:02:10.630Z" title="更新于 2026-08-31 17:02:10">2026-08-31</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E5%91%A8%E6%8A%A5/">AI周报</a></span></div><div class="content"> 📊 本周（2026-08-24 - 2026-08-31）AI 行业深度点评。从 65 条精选资讯中提炼 5 个核心话题，逐一分析。  📋 本周综述 💬 以下为本周 AI 圈最值得关注的动态概述。AI 将基于话题聚类数据，以叙事方式串联本周关键事件，讲清楚来龙去脉和行业影响。  本周AI行业可以用”混战与洗牌”来概括。模型层，OpenAI与Anthropic的竞争日趋白热化——Ope...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/08/28/AI-%E6%97%A5%E6%8A%A5-2026-08-28/" title="AI 日报 · 2026年08月28日">AI 日报 · 2026年08月28日</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-28T00:00:00.000Z" title="发表于 2026-08-28 08:00:00">2026-08-28</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-28T06:38:04.000Z" title="更新于 2026-08-28 14:38:04">2026-08-28</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a></span></div><div class="content"> 📰 今日 AI 精选资讯速递，五大版块共 13 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  🤖 模型发布&#x2F;更新1. Gemini Omni 1.1 Flash 发布，为开发者提供更强生成式视频控制🏷️ 📌 多模态 Google 来源: Google DeepMind：Blog（RS...</div></div></div><div class="recent-post-item"><div class="recent-post-info no-cover"><a class="article-title" href="/2026/08/25/AI-%E6%97%A5%E6%8A%A5-2026-08-25/" title="AI 日报 · 2026年08月25日">AI 日报 · 2026年08月25日</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-08-25T00:00:00.000Z" title="发表于 2026-08-25 08:00:00">2026-08-25</time><span class="article-meta-separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-08-24T16:00:50.402Z" title="更新于 2026-08-25 00:00:50">2026-08-25</time></span><span class="article-meta"><span class="article-meta-separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/AI%E6%97%A5%E6%8A%A5/">AI日报</a></span></div><div class="content"> 📰 今日 AI 精选资讯速递，五大版块共 2 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  📦 产品发布&#x2F;更新1. NVIDIA Vera Rubin NVL72 树立 AI 智能体效率新标准：每瓦特工作量提升至 30 倍🏷️ 英伟达 Agent 来源: NVIDIA Blog（RSS...</div></div></div></div><nav id="pagination"><div class="pagination"><span class="page-number current">1</span><a class="page-number" href="/page/2/#content-inner">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/#content-inner">12</a><a class="extend next" rel="next" href="/page/2/#content-inner"><i class="fas fa-chevron-right fa-fw"></i></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Leo Yip</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">116</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">47</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/leoyip" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/09/10/AI-%E6%97%A5%E6%8A%A5-2026-09-10/" title="AI 日报 · 2026年09月10日">AI 日报 · 2026年09月10日</a><time datetime="2026-09-10T00:00:00.000Z" title="发表于 2026-09-10 08:00:00">2026-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/09/09/AI-%E6%97%A5%E6%8A%A5-2026-09-09/" title="AI 日报 · 2026年09月09日">AI 日报 · 2026年09月09日</a><time datetime="2026-09-09T00:00:00.000Z" title="发表于 2026-09-09 08:00:00">2026-09-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/09/08/AI-%E6%97%A5%E6%8A%A5-2026-09-08/" title="AI 日报 · 2026年09月08日">AI 日报 · 2026年09月08日</a><time datetime="2026-09-08T00:00:00.000Z" title="发表于 2026-09-08 08:00:00">2026-09-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/09/07/AI-%E5%91%A8%E6%8A%A5%E6%B7%B1%E8%AF%84-2026-09-%E7%AC%AC36%E5%91%A8/" title="AI 周报深度点评 · 2026年8月第36周">AI 周报深度点评 · 2026年8月第36周</a><time datetime="2026-09-07T02:27:36.000Z" title="发表于 2026-09-07 10:27:36">2026-09-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/09/07/AI-%E6%97%A5%E6%8A%A5-2026-09-07/" title="AI 日报 · 2026年09月07日">AI 日报 · 2026年09月07日</a><time datetime="2026-09-07T00:00:00.000Z" title="发表于 2026-09-07 08:00:00">2026-09-07</time></div></div></div></div><div class="card-widget card-categories"><div class="item-headline">
+            <i class="fas fa-folder-open"></i>
+            <span>分类</span>
+            <a class="card-more-btn" href="/categories/" title="查看更多">
+      <i class="fas fa-angle-right"></i></a>
+          </div>
+          <ul class="card-category-list" id="aside-cat-list">
+            <li class="card-category-list-item "><a class="card-category-list-link" href="/categories/1000%E4%B8%AA%E7%94%9F%E6%B4%BB%E7%89%87%E6%AE%B5/"><span class="card-category-list-name">1000个生活片段</span><span class="card-category-list-count">5</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI%E5%91%A8%E6%8A%A5/"><span class="card-category-list-name">AI周报</span><span class="card-category-list-count">12</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/AI%E6%97%A5%E6%8A%A5/"><span class="card-category-list-name">AI日报</span><span class="card-category-list-count">37</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/HowWiKi/"><span class="card-category-list-name">HowWiKi</span><span class="card-category-list-count">6</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E4%B9%A6%E4%BF%A1/"><span class="card-category-list-name">书信</span><span class="card-category-list-count">3</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8A%80%E6%9C%AF/"><span class="card-category-list-name">技术</span><span class="card-category-list-count">19</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8A%95%E8%B5%84/"><span class="card-category-list-name">投资</span><span class="card-category-list-count">2</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E6%8A%95%E8%B5%84%E5%88%86%E6%9E%90/"><span class="card-category-list-name">投资分析</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%82%A1%E7%A5%A8%E5%88%86%E6%9E%90/"><span class="card-category-list-name">股票分析</span><span class="card-category-list-count">1</span></a></li><li class="card-category-list-item "><a class="card-category-list-link" href="/categories/%E8%8D%89%E7%A8%BF/"><span class="card-category-list-name">草稿</span><span class="card-category-list-count">4</span></a></li>
+          </ul></div><div class="card-widget card-tags"><div class="item-headline"><i class="fas fa-tags"></i><span>标签</span></div><div class="card-tag-cloud"><a href="/tags/%E7%94%9F%E4%BA%A7%E5%8A%9B/" style="font-size: 1.15em; color: rgb(50, 107, 88);">生产力</a><a href="/tags/AI/" style="font-size: 1.45em; color: rgb(184, 58, 179);">AI</a><a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" style="font-size: 1.45em; color: rgb(148, 78, 61);">人工智能</a><a href="/tags/%E5%91%A8%E6%8A%A5/" style="font-size: 1.36em; color: rgb(50, 50, 59);">周报</a><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%88%86%E6%9E%90/" style="font-size: 1.32em; color: rgb(50, 108, 101);">深度分析</a><a href="/tags/%E6%97%A5%E6%8A%A5/" style="font-size: 1.41em; color: rgb(150, 140, 167);">日报</a><a href="/tags/%E8%B5%84%E8%AE%AF/" style="font-size: 1.15em; color: rgb(190, 50, 180);">资讯</a><a href="/tags/Hexo/" style="font-size: 1.28em; color: rgb(50, 64, 50);">Hexo</a><a href="/tags/HP/" style="font-size: 1.15em; color: rgb(65, 189, 64);">HP</a><a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 1.19em; color: rgb(71, 113, 57);">服务器</a><a href="/tags/iLO/" style="font-size: 1.15em; color: rgb(152, 190, 65);">iLO</a><a href="/tags/iOS/" style="font-size: 1.19em; color: rgb(143, 85, 183);">iOS</a><a href="/tags/SQLite/" style="font-size: 1.15em; color: rgb(129, 86, 61);">SQLite</a><a href="/tags/GCD/" style="font-size: 1.15em; color: rgb(87, 50, 66);">GCD</a><a href="/tags/FMDB/" style="font-size: 1.15em; color: rgb(50, 110, 114);">FMDB</a><a href="/tags/Markdown/" style="font-size: 1.15em; color: rgb(181, 50, 134);">Markdown</a><a href="/tags/Swift/" style="font-size: 1.15em; color: rgb(50, 156, 105);">Swift</a><a href="/tags/Xcode/" style="font-size: 1.15em; color: rgb(55, 50, 124);">Xcode</a><a href="/tags/C%E8%AF%AD%E8%A8%80/" style="font-size: 1.24em; color: rgb(155, 50, 50);">C语言</a><a href="/tags/%E7%BC%96%E8%AF%91%E9%94%99%E8%AF%AF/" style="font-size: 1.15em; color: rgb(101, 174, 189);">编译错误</a></div></div><div class="card-widget card-archives">
+    <div class="item-headline">
+      <i class="fas fa-archive"></i>
+      <span>归档</span>
+      <a class="card-more-btn" href="/archives/"
+            title="查看更多">
+            <i class="fas fa-angle-right"></i>
+          </a>
+    </div>
+  
+    <ul class="card-archive-list">
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/09/">
+            <span class="card-archive-list-date">
+              九月 2026
+            </span>
+            <span class="card-archive-list-count">7</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/08/">
+            <span class="card-archive-list-date">
+              八月 2026
+            </span>
+            <span class="card-archive-list-count">12</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/07/">
+            <span class="card-archive-list-date">
+              七月 2026
+            </span>
+            <span class="card-archive-list-count">13</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2026/06/">
+            <span class="card-archive-list-date">
+              六月 2026
+            </span>
+            <span class="card-archive-list-count">22</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2018/07/">
+            <span class="card-archive-list-date">
+              七月 2018
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2018/06/">
+            <span class="card-archive-list-date">
+              六月 2018
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2018/05/">
+            <span class="card-archive-list-date">
+              五月 2018
+            </span>
+            <span class="card-archive-list-count">5</span>
+          </a>
+        </li>
+      
+        <li class="card-archive-list-item">
+          <a class="card-archive-list-link" href="/archives/2018/04/">
+            <span class="card-archive-list-date">
+              四月 2018
+            </span>
+            <span class="card-archive-list-count">1</span>
+          </a>
+        </li>
+      
+    </ul>
+  </div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>网站信息</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">文章数目 :</div><div class="item-count">116</div></div><div class="webinfo-item"><div class="item-name">最后更新时间 :</div><div class="item-count" id="last-push-date" data-lastPushDate="2026-09-09T16:11:00.600Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2016 - 2026 By Leo Yip</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.5</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.5"></script><script src="/js/main.js?v=5.5.5"></script><div class="js-pjax"><script>window.typedJSFn = {
+  init: str => {
+    window.typed = new Typed('#subtitle', Object.assign({
+      strings: str,
+      startDelay: 300,
+      typeSpeed: 150,
+      loop: true,
+      backSpeed: 50,
+    }, null))
+  },
+  run: subtitleType => {
+    if (true) {
+      if (typeof Typed === 'function') {
+        subtitleType()
+      } else {
+        btf.getScript('https://cdn.jsdelivr.net/npm/typed.js@3.0.0/dist/typed.umd.min.js').then(subtitleType)
+      }
+    } else {
+      subtitleType()
+    }
+  },
+  processSubtitle: (content, extraContents = []) => {
+    if (true) {
+      const sub = ["记录和创造生活，分享和交流知识"].slice()
+
+      if (extraContents.length > 0) {
+        sub.unshift(...extraContents)
+      }
+
+      if (typeof content === 'string') {
+        sub.unshift(content)
+      } else if (Array.isArray(content)) {
+        sub.unshift(...content)
+      }
+
+      sub.length > 0 && typedJSFn.init(sub)
+    } else {
+      document.getElementById('subtitle').textContent = typeof content === 'string' ? content :
+        (Array.isArray(content) && content.length > 0 ? content[0] : '')
+    }
+  }
+}
+btf.addGlobalFn('pjaxSendOnce', () => { typed.destroy() }, 'typedDestroy')
+</script><script>function subtitleType () {
+  typedJSFn.processSubtitle(["记录和创造生活，分享和交流知识"])
+}
+typedJSFn.run(subtitleType)</script></div></div></body></html>
