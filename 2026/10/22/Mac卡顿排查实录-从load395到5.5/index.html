@@ -1,0 +1,332 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Mac 卡顿排查实录：从 load 395 到 5.5 | 星夜航记</title><meta name="author" content="Leo Yip"><meta name="copyright" content="Leo Yip"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="一台 2018 款 MacBook Pro，i5 四核、16GB 内存，用了六年。某天早上开机后光标一直在转圈，敲一个字要等两秒。这不是玄学，是可以量化的。本文记录完整排查过程，含所有实测数据和命令。  起因10 月 21 日早上九点，我发现电脑卡得反常。不是”有点慢”，是打字有延迟、切换应用要等、风扇在转但什么也没干。 第一反应是”重启一下”。但重启前的三分钟等待让我改主意了——与其重启掩盖症">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac 卡顿排查实录：从 load 395 到 5.5">
+<meta property="og:url" content="https://leoyip.github.io/2026/10/22/Mac%E5%8D%A1%E9%A1%BF%E6%8E%92%E6%9F%A5%E5%AE%9E%E5%BD%95-%E4%BB%8Eload395%E5%88%B05.5/index.html">
+<meta property="og:site_name" content="星夜航记">
+<meta property="og:description" content="一台 2018 款 MacBook Pro，i5 四核、16GB 内存，用了六年。某天早上开机后光标一直在转圈，敲一个字要等两秒。这不是玄学，是可以量化的。本文记录完整排查过程，含所有实测数据和命令。  起因10 月 21 日早上九点，我发现电脑卡得反常。不是”有点慢”，是打字有延迟、切换应用要等、风扇在转但什么也没干。 第一反应是”重启一下”。但重启前的三分钟等待让我改主意了——与其重启掩盖症">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://leoyip.github.io/images/avatar.png">
+<meta property="article:published_time" content="2026-10-22T02:25:00.000Z">
+<meta property="article:modified_time" content="2026-10-22T02:20:11.059Z">
+<meta property="article:author" content="Leo Yip">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content="性能优化">
+<meta property="article:tag" content="排障">
+<meta property="article:tag" content="系统维护">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://leoyip.github.io/images/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Mac 卡顿排查实录：从 load 395 到 5.5",
+  "url": "https://leoyip.github.io/2026/10/22/Mac%E5%8D%A1%E9%A1%BF%E6%8E%92%E6%9F%A5%E5%AE%9E%E5%BD%95-%E4%BB%8Eload395%E5%88%B05.5/",
+  "image": "https://leoyip.github.io/images/avatar.png",
+  "datePublished": "2026-10-22T02:25:00.000Z",
+  "dateModified": "2026-10-22T02:20:11.059Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Leo Yip",
+      "url": "https://leoyip.github.io"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://leoyip.github.io/2026/10/22/Mac%E5%8D%A1%E9%A1%BF%E6%8E%92%E6%9F%A5%E5%AE%9E%E5%BD%95-%E4%BB%8Eload395%E5%88%B05.5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.5"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.2.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Mac 卡顿排查实录：从 load 395 到 5.5',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><style>.avatar-img img, .avatar-img, .site-author-image { animation: none !important; -webkit-animation: none !important; }</style><meta name="generator" content="Hexo 8.1.2"></head><body><div class="bg-animation" id="web_bg" style="background-color: #f5f5f5;"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">51</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-th"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background: linear-gradient(160deg, #2c3e50, #2980b9);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">星夜航记</span></a><a class="nav-page-title" href="/"><span class="site-name">Mac 卡顿排查实录：从 load 395 到 5.5</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-th"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Mac 卡顿排查实录：从 load 395 到 5.5</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-10-22T02:25:00.000Z" title="发表于 2026-10-22 10:25:00">2026-10-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-10-22T02:20:11.059Z" title="更新于 2026-10-22 10:20:11">2026-10-22</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%8A%80%E6%9C%AF/">技术</a></span></div><div class="meta-secondline"></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>一台 2018 款 MacBook Pro，i5 四核、16GB 内存，用了六年。某天早上开机后光标一直在转圈，敲一个字要等两秒。这不是玄学，是可以量化的。本文记录完整排查过程，含所有实测数据和命令。</p>
+</blockquote>
+<h2 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h2><p>10 月 21 日早上九点，我发现电脑卡得反常。不是”有点慢”，是打字有延迟、切换应用要等、风扇在转但什么也没干。</p>
+<p>第一反应是”重启一下”。但重启前的三分钟等待让我改主意了——与其重启掩盖症状，不如先看看它到底在干什么。事实证明这个决定是对的，因为重启之后一切会恢复正常，症状消失，问题继续潜伏。</p>
+<h2 id="一、先量，别猜"><a href="#一、先量，别猜" class="headerlink" title="一、先量，别猜"></a>一、先量，别猜</h2><p>Mac 上没有任务管理器的完整替代品，但几条命令足够定位：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 系统负载（最关键）</span></span><br><span class="line">sysctl -n vm.loadavg</span><br><span class="line"></span><br><span class="line"><span class="comment"># CPU 是否被降频</span></span><br><span class="line">pmset -g therm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 内存压力与换页</span></span><br><span class="line">vm_stat</span><br><span class="line">sysctl vm.swapusage</span><br><span class="line"></span><br><span class="line"><span class="comment"># 磁盘空间</span></span><br><span class="line"><span class="built_in">df</span> -h</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份状态</span></span><br><span class="line">tmutil status</span><br><span class="line"></span><br><span class="line"><span class="comment"># 索引状态</span></span><br><span class="line">mdutil -s /</span><br></pre></td></tr></table></figure>
+
+<p>第一次采样，结果是这样的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">load averages: 395.10 499.49 270.91</span><br></pre></td></tr></table></figure>
+
+<p><strong>395。</strong> 这台机器是四核八线程，正常负载应该低于 4。395 意味着有接近四百个任务在排队等 CPU——理论上系统应该完全卡死，能让我敲进命令已经算运气好。</p>
+<p>同时 <code>pmset -g therm</code> 给出了另一个关键信息：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CPU_Scheduler_Limit = 94</span><br><span class="line">CPU_Speed_Limit = 26</span><br></pre></td></tr></table></figure>
+
+<p><code>CPU_Speed_Limit = 26</code> 是说 <strong>CPU 只能发挥 26% 的性能</strong>。2.3GHz 的 i5 实际跑在 0.6GHz 左右。这就是”卡”最直接的物理原因。</p>
+<h2 id="二、数据拼出的三层问题"><a href="#二、数据拼出的三层问题" class="headerlink" title="二、数据拼出的三层问题"></a>二、数据拼出的三层问题</h2><p>继续往下挖，三个层次的问题浮出水面。</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>实测值</th>
+<th>正常值</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CPU 速度上限</td>
+<td>26%~60%</td>
+<td>100%</td>
+<td>严重降频</td>
+</tr>
+<tr>
+<td>系统负载</td>
+<td>395</td>
+<td>&lt; 4</td>
+<td>超载百倍</td>
+</tr>
+<tr>
+<td>Spotlight 索引进程</td>
+<td>16 个并发</td>
+<td>0~2</td>
+<td>全量重建中</td>
+</tr>
+<tr>
+<td>Time Machine</td>
+<td>卡在 Starting 超 6 分钟</td>
+<td>正常推进</td>
+<td>挂死</td>
+</tr>
+<tr>
+<td>内存可用</td>
+<td>97 MB</td>
+<td>&gt; 2 GB</td>
+<td>接近耗尽</td>
+</tr>
+<tr>
+<td>Page-in 次数</td>
+<td>92.3 万（开机 75 分钟）</td>
+<td>数万</td>
+<td>疯狂读盘</td>
+</tr>
+<tr>
+<td>系统盘占用</td>
+<td>89%</td>
+<td>&lt; 80%</td>
+<td>偏高</td>
+</tr>
+</tbody></table>
+<p><strong>硬件层</strong>：CPU 降频。这台 2018 款用了六年，硅脂早干了，风扇积灰，散热能力大幅衰减。CPU 一热就自动降频保护自己。</p>
+<p><strong>系统层</strong>：Time Machine 正在备份到外接硬盘，但<strong>卡在 <code>Starting</code> 阶段出不来</strong>。原因是那块备份盘只剩 37GB（已用 93%），装不下这次增量。<code>backupd</code> 卡在死循环里空转，持续抢占磁盘 I&#x2F;O。与此同时 Spotlight 在做全量重建索引，16 个 <code>mdworker_shared</code> 进程同时啃硬盘。</p>
+<p><strong>存储层</strong>：系统盘 89% 满，内存只剩 97MB，swap 为 0——系统在靠内存压缩硬撑，92 万次 page-in 就是代价。</p>
+<p>三件事叠在一起，CPU 被逼到降频，负载冲到 395。</p>
+<h2 id="三、动手：先解决制造麻烦的"><a href="#三、动手：先解决制造麻烦的" class="headerlink" title="三、动手：先解决制造麻烦的"></a>三、动手：先解决制造麻烦的</h2><p>诊断清楚后，处理顺序很关键。<strong>先停掉”正在制造持续压力”的东西，再谈优化。</strong></p>
+<p><strong>第一步，拔掉备份盘。</strong> 这一下比什么都管用。<code>backupd</code> 一停，磁盘 I&#x2F;O 立刻释放，CPU 温度下来，降频自然解除。</p>
+<p>效果是立竿见影的：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>处置前</th>
+<th>拔盘后</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>系统负载</td>
+<td>395</td>
+<td>9.0</td>
+</tr>
+<tr>
+<td>CPU 速度上限</td>
+<td>26%</td>
+<td><strong>100%</strong></td>
+</tr>
+<tr>
+<td>内存可用</td>
+<td>97 MB</td>
+<td>130 MB</td>
+</tr>
+</tbody></table>
+<p><strong>第二步，管住 Spotlight。</strong> 我的 Obsidian 库里有 20GB 代码目录——历史项目、模型权重、数据集、11 个 <code>node_modules</code>。Spotlight 会逐个分析这些文件，但你永远不会在搜索框里搜 <code>.pyc</code> 或模型权重。</p>
+<p>办法是在目录里放一个空的 <code>.metadata_never_index</code> 文件，索引器就会跳过整个目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">touch</span> ~/path/to/big-directory/.metadata_never_index</span><br></pre></td></tr></table></figure>
+
+<p>我一共标记了 98 个目录：所有 <code>node_modules</code>、<code>venv</code>、<code>__pycache__</code>，加上几个大体积的代码和素材目录。<strong>笔记类目录（博客、归档、项目文档）全部保留索引</strong>，日常搜索完全不受影响。</p>
+<p><strong>第三步，清可重建的缓存。</strong> 用官方命令，不要手动 <code>rm</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm cache clean --force      <span class="comment"># 2.5GB → 220MB</span></span><br><span class="line">pip3 cache purge             <span class="comment"># 504MB → 176MB</span></span><br><span class="line">brew cleanup -s              <span class="comment"># 释放 110MB</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="四、意外发现：47GB-的风景视频"><a href="#四、意外发现：47GB-的风景视频" class="headerlink" title="四、意外发现：47GB 的风景视频"></a>四、意外发现：47GB 的风景视频</h2><p>清理完缓存，磁盘占用反而从 89% 涨到了 90%。这不正常，于是我扫了一遍全盘，发现在这里：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Library/Application Support/com.apple.idleassetsd/Customer    47 GB</span><br></pre></td></tr></table></figure>
+
+<p>这是 macOS 的<strong>航拍屏保</strong>资源缓存。从 Sonoma 开始，系统会自动下载 4K HDR 的风景视频用于动态壁纸和屏保，日积月累堆到了 47GB——里面有 150 个 <code>.mov</code> 文件，单个最大 1.4GB。</p>
+<p>而这些视频我压根没在看。文件时间戳显示是 2024 年 8 月下载的，两年没动过。</p>
+<h2 id="五、一个顺序问题"><a href="#五、一个顺序问题" class="headerlink" title="五、一个顺序问题"></a>五、一个顺序问题</h2><p>我当时的方案是”直接删掉这 47GB”。但被问了一句：</p>
+<blockquote>
+<p>屏保那个功能要先关闭再清理数据吧？</p>
+</blockquote>
+<p><strong>这个问题救了 47GB 的下载流量。</strong></p>
+<p>查配置确认：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plutil -p <span class="string">&quot;<span class="variable">$HOME</span>/Library/Application Support/com.apple.wallpaper/Store/Index.plist&quot;</span> | grep aerials</span><br></pre></td></tr></table></figure>
+
+<p>输出显示壁纸和屏保的 Provider 都是 <code>com.apple.wallpaper.choice.aerials</code>——<strong>航拍模式还开着</strong>。如果这时候直接删缓存，<code>idleassetsd</code> 会发现资源缺失，然后默默把 47GB 全部重新下载回来。</p>
+<p>正确顺序是：<strong>先在系统设置里把壁纸换成静态图，再删缓存。</strong> 删除前检查配置，删除后确认不再自动下载。</p>
+<h2 id="六、结果"><a href="#六、结果" class="headerlink" title="六、结果"></a>六、结果</h2><p>第二天复核，数据如下：</p>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>排查前</th>
+<th>处理后</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>系统负载</td>
+<td>395</td>
+<td><strong>5.5</strong></td>
+</tr>
+<tr>
+<td>CPU 速度上限</td>
+<td>26%</td>
+<td>100%</td>
+</tr>
+<tr>
+<td>磁盘可用</td>
+<td>47 GB</td>
+<td><strong>107 GB</strong></td>
+</tr>
+<tr>
+<td>磁盘占用</td>
+<td>90%</td>
+<td><strong>77%</strong></td>
+</tr>
+<tr>
+<td>内存可用</td>
+<td>97 MB</td>
+<td>640 MB</td>
+</tr>
+</tbody></table>
+<p>磁盘占用降到 77%，进入了 APFS 的健康区间（超过 85% 会明显拖慢写入）。累计释放约 60GB。</p>
+<h2 id="七、几条可以复用的经验"><a href="#七、几条可以复用的经验" class="headerlink" title="七、几条可以复用的经验"></a>七、几条可以复用的经验</h2><p><strong>1. 卡顿不是感觉，是数据。</strong> <code>load average</code>、<code>pmset -g therm</code>、<code>vm_stat</code> 三个命令就能判断是 CPU、内存还是 I&#x2F;O 的问题，比反复重启有价值得多。</p>
+<p><strong>2. 降频往往是被其他问题逼出来的。</strong> 我一开始以为 CPU 老化要清灰，实际上它是被 Time Machine 和索引的高负载加热的。先解决压力源，降频自己就好了。</p>
+<p><strong>3. 寻找”正在空转”的进程。</strong> <code>backupd</code> 卡在 Starting、<code>mds</code> 卡在重建——这类”看起来在工作实际没进展”的进程是隐形杀手，<code>tmutil status</code> 和 <code>mdutil -s</code> 能看出来。</p>
+<p><strong>4. 删之前先想”它会不会回来”。</strong> 缓存类文件大多会自动重建。不先关掉触发它的功能就删除，等于白删。</p>
+<p><strong>5. 官方清理命令优于手动删除。</strong> <code>npm cache clean</code>、<code>pip cache purge</code>、<code>brew cleanup</code> 都有内置的清理逻辑，比 <code>rm -rf</code> 安全。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这台 2018 款 MBP 现在运行 macOS 15.7.7，已经超出它的舒适区，但仍能胜任日常文字工作、代码编辑和笔记管理。它慢，但慢的原因大部分不是硬件不行，而是系统里堆积了太多没人管的缓存和索引任务。</p>
+<p>顺带一句：处理完之后我发现，<strong>这台机器现在一份备份都没有</strong>——备份盘拔了、本地快照清了。磁盘腾出来了，但数据安全反而成了新问题。下一件事是接一块 1TB 以上的硬盘重新做 Time Machine。</p>
+<p>清理空间是为了用得更久，不是为了清空。这个顺序别搞反。</p>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/macOS/">macOS</a><a class="post-meta__tags" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a><a class="post-meta__tags" href="/tags/%E7%B3%BB%E7%BB%9F%E7%BB%B4%E6%8A%A4/">系统维护</a><a class="post-meta__tags" href="/tags/%E6%8E%92%E9%9A%9C/">排障</a></div><div class="post-share"><div class="social-share" data-image="/images/avatar.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/10/22/AI-%E6%97%A5%E6%8A%A5-2026-10-22/" title="AI 日报 · 2026年10月22日"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">AI 日报 · 2026年10月22日</div></div><div class="info-2"><div class="info-item-1"> 📰 今日 AI 精选资讯速递，五大版块共 10 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  🤖 模型发布&#x2F;更新1. Baseten 发布决策模型 mammoth-1（27B）和 elephant-1（9B），开源并免费试用一周🏷️ 阿里 开源 训练 来源: Baseten 工程博客（...</div></div></div></a><a class="pagination-related" href="/2026/10/23/AI-%E6%97%A5%E6%8A%A5-2026-10-23/" title="AI 日报 · 2026年10月23日"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">AI 日报 · 2026年10月23日</div></div><div class="info-2"><div class="info-item-1"> 📰 今日 AI 精选资讯速递，五大版块共 6 条值得关注的动态。标签色系：🔵蓝&#x3D;公司&#x2F;产品 · 🟣粉&#x3D;技术概念 · 🟢绿&#x3D;领域话题。  📦 产品发布&#x2F;更新1. Kling 4.0 上线 OpenArt，支持首中尾帧引导与最多 10 张参考图🏷️ 快手 来源: X：可灵 Kling AI (@Kling_ai) · 9小时前 Op...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/images/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Leo Yip</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">144</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">51</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">12</div></a></div><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/leoyip" target="_blank" title="GitHub"><i class="fab fa-github"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B5%B7%E5%9B%A0"><span class="toc-number">1.</span> <span class="toc-text">起因</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%85%88%E9%87%8F%EF%BC%8C%E5%88%AB%E7%8C%9C"><span class="toc-number">2.</span> <span class="toc-text">一、先量，别猜</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%95%B0%E6%8D%AE%E6%8B%BC%E5%87%BA%E7%9A%84%E4%B8%89%E5%B1%82%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">二、数据拼出的三层问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%8A%A8%E6%89%8B%EF%BC%9A%E5%85%88%E8%A7%A3%E5%86%B3%E5%88%B6%E9%80%A0%E9%BA%BB%E7%83%A6%E7%9A%84"><span class="toc-number">4.</span> <span class="toc-text">三、动手：先解决制造麻烦的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%84%8F%E5%A4%96%E5%8F%91%E7%8E%B0%EF%BC%9A47GB-%E7%9A%84%E9%A3%8E%E6%99%AF%E8%A7%86%E9%A2%91"><span class="toc-number">5.</span> <span class="toc-text">四、意外发现：47GB 的风景视频</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E4%B8%80%E4%B8%AA%E9%A1%BA%E5%BA%8F%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">五、一个顺序问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E7%BB%93%E6%9E%9C"><span class="toc-number">7.</span> <span class="toc-text">六、结果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%87%A0%E6%9D%A1%E5%8F%AF%E4%BB%A5%E5%A4%8D%E7%94%A8%E7%9A%84%E7%BB%8F%E9%AA%8C"><span class="toc-number">8.</span> <span class="toc-text">七、几条可以复用的经验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%90%8E"><span class="toc-number">9.</span> <span class="toc-text">最后</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/31/AI-%E6%97%A5%E6%8A%A5-2026-10-31/" title="AI 日报 · 2026年10月31日">AI 日报 · 2026年10月31日</a><time datetime="2026-10-31T00:00:00.000Z" title="发表于 2026-10-31 08:00:00">2026-10-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/30/AI-%E6%97%A5%E6%8A%A5-2026-10-30/" title="AI 日报 · 2026年10月30日">AI 日报 · 2026年10月30日</a><time datetime="2026-10-30T00:00:00.000Z" title="发表于 2026-10-30 08:00:00">2026-10-30</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/29/AI-%E6%97%A5%E6%8A%A5-2026-10-29/" title="AI 日报 · 2026年10月29日">AI 日报 · 2026年10月29日</a><time datetime="2026-10-29T00:00:00.000Z" title="发表于 2026-10-29 08:00:00">2026-10-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/28/AI-%E6%97%A5%E6%8A%A5-2026-10-28/" title="AI 日报 · 2026年10月28日">AI 日报 · 2026年10月28日</a><time datetime="2026-10-28T00:00:00.000Z" title="发表于 2026-10-28 08:00:00">2026-10-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/10/27/AI-%E6%97%A5%E6%8A%A5-2026-10-27/" title="AI 日报 · 2026年10月27日">AI 日报 · 2026年10月27日</a><time datetime="2026-10-27T00:00:00.000Z" title="发表于 2026-10-27 08:00:00">2026-10-27</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2016 - 2026 By Leo Yip</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.5</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.5"></script><script src="/js/main.js?v=5.5.5"></script><div class="js-pjax"></div></div></body></html>
