@@ -10,6 +10,7 @@ AI 周报深评数据获取器 — 拉取本周 AIHOT 数据，生成 Hexo 深�
 
 import json
 import urllib.request
+import urllib.parse
 import sys
 import os
 import argparse
@@ -18,7 +19,8 @@ from datetime import datetime, timedelta, timezone
 from collections import Counter, defaultdict
 
 # ── 配置 ──────────────────────────────────────────────
-API_BASE = "https://aihot.virxact.com"
+# 注：AIHOT 已迁移到新域名 aihot.news，API 路径由 /api/public/* 改为 /api/v1/*
+API_BASE = "https://aihot.news"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
 BLOG_POST_DIR = os.path.expanduser("~/Documents/开发/博客/source/_posts")
 
@@ -96,7 +98,7 @@ CLUSTER_TOPICS = {
 
 
 def fetch_weekly_items(days: int = 7) -> list[dict]:
-    """拉取最近 N 天精选条目（翻页直到数据超出时间窗口）"""
+    """拉取最近 N 天精选条目（v1 接口，游标分页）"""
     since = datetime.now(timezone.utc) - timedelta(days=days)
     since_iso = since.strftime("%Y-%m-%dT%H:%M:%SZ")
 
@@ -106,25 +108,45 @@ def fetch_weekly_items(days: int = 7) -> list[dict]:
 
     while True:
         page += 1
-        url = f"{API_BASE}/api/public/items?mode=selected&since={since_iso}&take=100"
+        window = f"{days}d"
+        url = f"{API_BASE}/api/v1/items?mode=selected&window={window}&limit=100"
         if cursor:
-            url += f"&cursor={cursor}"
+            url += f"&cursor={urllib.parse.quote(cursor)}"
 
         req = urllib.request.Request(url, headers={"User-Agent": UA})
         with urllib.request.urlopen(req, timeout=30) as resp:
             data = json.loads(resp.read().decode("utf-8"))
 
-        items = data.get("items", [])
-        all_items.extend(items)
-        print(f"   第{page}页: {len(items)}条 (累计{len(all_items)}条)", file=sys.stderr)
+        batch = data.get("items", [])
+        # v1 字段映射
+        mapped = []
+        for it in batch:
+            mapped.append({
+                "title": it.get("title", "") or it.get("originalTitle", ""),
+                "source": (it.get("source") or {}).get("name", ""),
+                "url": (it.get("links") or {}).get("original", ""),
+                "summary": it.get("summary", "") or "",
+                "category": it.get("category", "industry"),
+                "publishedAt": it.get("publishedAt", ""),
+                "score": it.get("score", 0),
+            })
+        all_items.extend(mapped)
+        print(f"   第{page}页: {len(mapped)}条 (累计{len(all_items)}条)", file=sys.stderr)
 
-        has_next = data.get("hasNext", False)
-        next_cursor = data.get("nextCursor")
-        if not has_next or not next_cursor:
+        # 已翻到窗口下界之外（按 publishedAt 倒序），无需继续
+        if batch and (batch[-1].get("publishedAt") or "") < since_iso:
             break
-        cursor = next_cursor
 
-    return all_items
+        page_info = data.get("page") or {}
+        if not page_info.get("hasMore"):
+            break
+        cursor = page_info.get("nextCursor")
+        if not cursor:
+            break
+
+    # 时间窗口收窄
+    return [it for it in all_items
+            if not it.get("publishedAt") or it["publishedAt"] >= since_iso]
 
 
 def score_item(item: dict) -> int:
@@ -213,7 +235,8 @@ def format_weekly_md(
     # 计算第几周
     start_dt = datetime.strptime(week_start, "%Y-%m-%d")
     week_num = start_dt.isocalendar()[1]
-    month = start_dt.month
+    # 月份以「结束日」为准，保证标题与文件名（now.month）一致
+    month = now.month
 
     lines = []
     lines.append("---")
@@ -311,7 +334,7 @@ def format_weekly_md(
 
     lines.append("")
     lines.append("---")
-    lines.append(f"*📡 数据来源：AI HOT (aihot.virxact.com) · "
+    lines.append(f"*📡 数据来源：AI HOT (aihot.news) · "
                  f"覆盖时间：{week_start} - {week_end} · "
                  f"生成时间：{now.strftime('%Y-%m-%d %H:%M')} 北京时间*")
     lines.append("")
