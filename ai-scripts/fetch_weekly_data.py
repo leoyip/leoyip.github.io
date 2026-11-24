@@ -22,7 +22,7 @@ from collections import Counter, defaultdict
 # 注：AIHOT 已迁移到新域名 aihot.news，API 路径由 /api/public/* 改为 /api/v1/*
 API_BASE = "https://aihot.news"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-BLOG_POST_DIR = os.path.expanduser("~/Documents/开发/博客/source/_posts")
+BLOG_POST_DIR = os.path.expanduser("~/MyCode/博客/source/_posts")
 
 # 高权重信源（评分加成）
 HIGH_WEIGHT_SOURCES = [

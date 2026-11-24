@@ -10,15 +10,17 @@ AI 日报生成器 — 从 AIHOT 拉取当日精选，生成 Hexo 博文。
 
 import json
 import urllib.request
+import urllib.parse
 import sys
 import os
 import argparse
 from datetime import datetime, timedelta, timezone
 
 # ── 配置 ──────────────────────────────────────────────
-API_BASE = "https://aihot.virxact.com"
+# 注：AIHOT 已迁移到新域名 aihot.news，API 路径由 /api/public/* 改为 /api/v1/*
+API_BASE = "https://aihot.news"
 UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-BLOG_POST_DIR = os.path.expanduser("~/Documents/开发/博客/source/_posts")
+BLOG_POST_DIR = os.path.expanduser("~/MyCode/博客/source/_posts")
 
 # 五大版块
 SECTION_LABELS = {
@@ -36,6 +38,9 @@ SECTION_EMOJI = {
     "paper": "📄",
     "tip": "💡",
 }
+
+# API 分类别名 → 博客版块
+CATEGORY_ALIAS = {"opinion": "tip"}
 
 # ── 标签词库（精简版，日报用） ──────────────────────────
 TAG_DICT = {
@@ -233,13 +238,108 @@ def classify_model(title: str) -> str | None:
     return None
 
 
-def fetch_items(since_iso: str, max_items: int = 100) -> list[dict]:
-    """从 AIHOT API 拉取精选条目"""
-    url = f"{API_BASE}/api/public/items?mode=selected&since={since_iso}&take={max_items}"
+def _neg_ts(iso_str: str | None) -> float:
+    """ISO 时间戳 → 可用于倒序排序的负时间戳"""
+    if not iso_str:
+        return 0.0
+    try:
+        dt = datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+        return -dt.timestamp()
+    except Exception:
+        return 0.0
+
+
+def _http_json(url: str) -> dict:
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=30) as resp:
-        data = json.loads(resp.read().decode("utf-8"))
-    return data.get("items", [])
+        return json.loads(resp.read().decode("utf-8"))
+
+
+def fetch_daily(date_str: str) -> list[dict]:
+    """从 AIHOT 官方日报端点拉取指定日期的日报条目"""
+    data = _http_json(f"{API_BASE}/api/v1/dailies/{date_str}")
+    report = data.get("report") or {}
+    cat_map = {v: k for k, v in SECTION_LABELS.items()}
+    items = []
+    for section in report.get("sections", []):
+        cat = cat_map.get(section.get("label"))
+        if not cat:
+            continue
+        for it in section.get("items", []):
+            items.append({
+                "title": it.get("title", ""),
+                "source": (it.get("source") or {}).get("name", ""),
+                "url": (it.get("links") or {}).get("original", ""),
+                "summary": it.get("summary", ""),
+                "category": cat,
+                "publishedAt": it.get("publishedAt"),
+                "rank": (0, -len(items)),
+            })
+    for fl in report.get("flashes", []):
+        items.append({
+            "title": fl.get("title", ""),
+            "source": (fl.get("source") or {}).get("name", ""),
+            "url": (fl.get("links") or {}).get("original", ""),
+            "summary": fl.get("summary", ""),
+            "category": "industry",
+            "publishedAt": fl.get("publishedAt"),
+            "rank": (0, -len(items)),
+        })
+    return items
+
+
+def fetch_items(since_iso: str, until_iso: str | None = None,
+                max_items: int = 1000) -> list[dict]:
+    """从 AIHOT v1 items 端点拉取条目（游标分页），按发布时间窗口过滤。
+
+    接口按 publishedAt 倒序返回，因此一旦某页条目的时间早于窗口下界即可停止翻页。
+    """
+    window = "24h" if until_iso is None else "7d"
+    items: list[dict] = []
+    cursor = None
+    while len(items) < max_items:
+        url = (f"{API_BASE}/api/v1/items?mode=all&window={window}"
+               f"&by=published")
+        if cursor:
+            url += f"&cursor={urllib.parse.quote(cursor)}"
+        data = _http_json(url)
+        batch = data.get("items", [])
+        if not batch:
+            break
+        items.extend(batch)
+        # 已翻到窗口下界之外，无需继续
+        if until_iso is not None and batch[-1].get("publishedAt", "") < since_iso:
+            break
+        page = data.get("page") or {}
+        if not page.get("hasMore"):
+            break
+        cursor = page.get("nextCursor")
+        if not cursor:
+            break
+    # 时间窗口过滤
+    out = []
+    for it in items:
+        pub = it.get("publishedAt") or ""
+        if pub < since_iso:
+            continue
+        if until_iso and pub >= until_iso:
+            continue
+        out.append({
+            "title": it.get("title", ""),
+            "source": (it.get("source") or {}).get("name", ""),
+            "url": (it.get("links") or {}).get("original", ""),
+            "summary": it.get("summary", ""),
+            "category": it.get("category", "industry"),
+            "publishedAt": it.get("publishedAt"),
+            "score": it.get("score", 0),
+            "selected": bool(it.get("selected")),
+            "reason": it.get("reason", ""),
+            # 排序键：官方精选优先，其次按评分，再按时间
+            "rank": (0 if it.get("selected") else 1,
+                     -int(it.get("score") or 0),
+                     _neg_ts(it.get("publishedAt"))),
+        })
+    return out
 
 
 def format_time(iso_str: str | None) -> str:
@@ -271,11 +371,13 @@ def generate_daily(items: list[dict], date_str: str) -> str:
     sections: dict[str, list[dict]] = {k: [] for k in SECTION_LABELS}
     for item in items:
         cat = item.get("category")
+        cat = CATEGORY_ALIAS.get(cat, cat)
         if cat in sections:
             sections[cat].append(item)
 
-    # 每版块取前 3 条
+    # 每版块按官方口径排序后取前 3 条
     for cat in sections:
+        sections[cat].sort(key=lambda x: x.get("rank") or (0, 0, 0))
         sections[cat] = sections[cat][:3]
 
     total = sum(len(v) for v in sections.values())
@@ -294,7 +396,8 @@ def generate_daily(items: list[dict], date_str: str) -> str:
     lines.append("  - 人工智能")
     lines.append("---")
     lines.append("")
-    lines.append(f"> 📰 今日 AI 精选资讯速递，五大版块共 {total} 条值得关注的动态。"
+    shown = sum(1 for v in sections.values() if v)
+    lines.append(f"> 📰 今日 AI 精选资讯速递，{shown} 个版块共 {total} 条值得关注的动态。"
                  "标签色系：🔵蓝=公司/产品 · 🟣粉=技术概念 · 🟢绿=领域话题。")
     lines.append("")
     lines.append("")
@@ -335,8 +438,9 @@ def generate_daily(items: list[dict], date_str: str) -> str:
                     f'font-size:10px;padding:1px 6px;border-radius:6px;margin-right:4px;">'
                     f'📌 {sub_label}</span> ' + tag_line
                 )
-            lines.append(f"🏷️ {tag_line}")
-            lines.append("")
+            if tag_line.strip():
+                lines.append(f"🏷️ {tag_line}")
+                lines.append("")
 
             meta = []
             if source:
@@ -358,7 +462,7 @@ def generate_daily(items: list[dict], date_str: str) -> str:
         lines.append("")
 
     lines.append("---")
-    lines.append(f"*📡 数据来源：AI HOT (aihot.virxact.com) · 生成时间：{datetime.now().strftime('%Y-%m-%d %H:%M')} 北京时间*")
+    lines.append(f"*📡 数据来源：AI HOT (aihot.news) · 生成时间：{datetime.now().strftime('%Y-%m-%d %H:%M')} 北京时间*")
     lines.append("")
 
     return "\n".join(lines)
@@ -381,49 +485,29 @@ def main():
 
     date_str = target_date.strftime("%Y-%m-%d")
 
-    # 构造 since: 目标日期的前一天 00:00 UTC
+    # 构造时间窗口：目标日期的前一天 00:00 UTC ~ 目标日期 00:00 UTC
     since_dt = target_date - timedelta(days=1)
     since_iso = since_dt.strftime("%Y-%m-%dT00:00:00Z")
+    until_iso = target_date.strftime("%Y-%m-%dT00:00:00Z")
 
     print(f"📡 拉取 {date_str} AI 日报数据...")
     print(f"   优先使用 daily 端点（按日期返回独立内容）")
 
     items = []
-    daily_failed = False
 
-    # 优先：daily 端点，按日期返回当日精选
+    # 优先：官方日报端点（每日 UTC 00:00 后发布）
     try:
-        daily_url = f"{API_BASE}/api/public/daily/{date_str}"
-        print(f"   API: daily/{date_str}")
-        req = urllib.request.Request(daily_url, headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            daily = json.loads(resp.read().decode("utf-8"))
-        # 转为 items 格式
-        cat_map = {v: k for k, v in SECTION_LABELS.items()}
-        for section in daily.get("sections", []):
-            cat = cat_map.get(section["label"])
-            if not cat:
-                continue
-            for it in section.get("items", []):
-                items.append({
-                    "title": it.get("title", ""),
-                    "source": it.get("sourceName", ""),
-                    "url": it.get("sourceUrl", ""),
-                    "summary": it.get("summary", ""),
-                    "category": cat,
-                    "publishedAt": it.get("publishedAt"),
-                })
+        print(f"   API: dailies/{date_str}")
+        items = fetch_daily(date_str)
         print(f"   ✅ daily 端点获取到 {len(items)} 条")
     except Exception as e:
         print(f"   ⚠️  daily 端点失败: {e}")
-        daily_failed = True
 
-    # 回退：selected 端点（用 since+take，接受可能的内容重叠）
+    # 回退：v1 items 端点 + 时间窗口过滤（官方日报尚未发布时使用）
     if not items:
-        since_iso = (target_date - timedelta(days=1)).strftime("%Y-%m-%dT00:00:00Z")
         try:
-            print(f"   API(fallback): items?mode=selected&since={since_iso}&take=100")
-            items = fetch_items(since_iso)
+            print(f"   API(fallback): items?mode=all&window=7d, 窗口 {since_iso} ~ {until_iso}")
+            items = fetch_items(since_iso, until_iso)
             print(f"   ✅ fallback 获取到 {len(items)} 条")
         except Exception as e:
             print(f"   ❌ fallback 也失败: {e}")
