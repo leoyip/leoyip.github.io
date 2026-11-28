@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026年上半年黄金市场深度复盘</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+  background: #f5f7fa;
+  color: #1a1a2e;
+  line-height: 1.7;
+  padding: 0;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
+
+/* TL;DR Card */
+.tldr {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-radius: 16px;
+  padding: 32px 36px;
+  color: #fff;
+  margin-bottom: 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+.tldr h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; letter-spacing: 1px; }
+.tldr .subtitle { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+.tldr .key-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.tldr .key-item {
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 16px 18px;
+  text-align: center;
+}
+.tldr .key-item .num { font-size: 26px; font-weight: 700; }
+.tldr .key-item .num.red { color: #ff4757; }
+.tldr .key-item .num.green { color: #2ed573; }
+.tldr .key-item .label { font-size: 12px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+.tldr .verdict {
+  margin-top: 18px;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.06);
+  border-left: 4px solid #ffa502;
+  border-radius: 8px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.85);
+}
+
+/* Section */
+.section {
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.section h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f5;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section h2 .badge {
+  display: inline-block;
+  font-size: 12px;
+  background: #e8f0fe;
+  color: #2b6cb0;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 18px 0 10px;
+  color: #2d3748;
+}
+.chart-box {
+  width: 100%;
+  height: 400px;
+  margin: 16px 0;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+  font-size: 14px;
+}
+th, td {
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid #edf2f7;
+}
+th { background: #f7fafc; font-weight: 600; color: #4a5568; font-size: 13px; }
+tr:hover td { background: #fafbfc; }
+
+/* Tag */
+.tag { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 12px; font-weight: 600; margin-right: 4px; }
+.tag-red { background: #fff5f5; color: #e53e3e; }
+.tag-green { background: #f0fff4; color: #38a169; }
+.tag-blue { background: #ebf8ff; color: #3182ce; }
+.tag-orange { background: #fffaf0; color: #dd6b20; }
+
+/* factor cards */
+.factor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 14px 0; }
+.factor-card {
+  background: #fafbfc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px;
+}
+.factor-card .title { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+.factor-card .desc { font-size: 13px; color: #4a5568; }
+.factor-card .impact { display: inline-block; margin-top: 8px; font-size: 12px; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+
+/* institutional outlook */
+.inst-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+.inst-card {
+  background: #fafbfc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+.inst-card .name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.inst-card .view { font-size: 20px; font-weight: 700; color: #2b6cb0; }
+.inst-card .logic { font-size: 12px; color: #718096; margin-top: 4px; }
+
+/* Phase timeline */
+.phase-timeline { margin: 16px 0; }
+.phase-item {
+  display: flex;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px dashed #e2e8f0;
+}
+.phase-item:last-child { border-bottom: none; }
+.phase-item .date { min-width: 90px; font-weight: 600; color: #2b6cb0; font-size: 14px; }
+.phase-item .content { flex: 1; }
+.phase-item .content .title { font-weight: 600; font-size: 15px; }
+.phase-item .content .detail { font-size: 13px; color: #4a5568; margin-top: 3px; }
+
+@media (max-width: 700px) {
+  .tldr .key-grid { grid-template-columns: repeat(2, 1fr); }
+  .factor-grid, .inst-grid { grid-template-columns: 1fr; }
+  .container { padding: 14px 12px 40px; }
+  .section { padding: 18px 16px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- TL;DR -->
+<div class="tldr">
+  <h1>2026年上半年黄金深度复盘</h1>
+  <div class="subtitle">数据截至2026年6月25日 · 已失守4000美元大关 · 29%深度回撤</div>
+  <div class="key-grid">
+    <div class="key-item">
+      <div class="num red">5,599</div>
+      <div class="label">年内高点 (USD/oz)<br>1月29日</div>
+    </div>
+    <div class="key-item">
+      <div class="num red">3,965</div>
+      <div class="label">年内低点 (USD/oz)<br>6月24日</div>
+    </div>
+    <div class="key-item">
+      <div class="num red">≈29.2%</div>
+      <div class="label">最大回撤幅度<br>近40年最大</div>
+    </div>
+    <div class="key-item">
+      <div class="num green">244</div>
+      <div class="label">央行Q1购金 (吨)<br>同比+3%</div>
+    </div>
+  </div>
+  <div class="verdict">
+    <strong>核心结论：</strong>2026年上半年黄金呈现典型的"先冲顶、后暴跌"走势。年初在去美元化+地缘冲突助推下创历史新高5,599美元，随后在美联储鹰派转向、沃什就任新主席、通胀超预期反弹、AI科技股分流资金等多重利空共振下，金价断崖式下跌。6月24日跌破4,000美元心理大关，最低触及3,964.64美元，较历史高点回撤29.2%。金饰零售价距高点已跌超27%。当前4,000美元支撑已破，市场进入更深层次的观望与博弈阶段。
+  </div>
+</div>
+
+<!-- Price Timeline -->
+<div class="section">
+  <h2>📅 上半年行情复盘 <span class="badge">5个关键阶段</span></h2>
+  <div class="phase-timeline">
+    <div class="phase-item">
+      <div class="date">1月初</div>
+      <div class="content">
+        <div class="title">承接2025年超级牛市</div>
+        <div class="detail">2025年金价全年上涨超33%（$3,900→$5,200），在去美元化加速、央行持续购金、地缘冲突升级驱动下，连续突破。1月金价继续上冲，国内大盘金价于1月17日达1,406元/克高点。</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="date">1月29日</div>
+      <div class="content">
+        <div class="title">📈 创历史新高 5,599美元</div>
+        <div class="detail">国际现货黄金冲至5,598.75美元/盎司的历史最高点。国内市场：周大福等品牌金饰冲至1,708-1,722元/克的天价。市场预期美联储年内降息3次，叠加美伊局势紧张点燃避险情绪。</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="date">2月下-3月</div>
+      <div class="content">
+        <div class="title">⚡ 美伊冲突爆发 · 高位剧烈震荡</div>
+        <div class="detail">2月底美伊冲突全面爆发，避险情绪瞬间点燃，黄金ETF资金大幅流入。但油价飙升推高通胀预期，市场开始担忧美联储推迟降息。3月22日金价跌破4,500美元，同月全球黄金ETF遭遇创纪录的120亿美元净流出。月末VIX指数逼近30，市场恐慌情绪达峰。</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="date">4月-5月中</div>
+      <div class="content">
+        <div class="title">📉 通胀爆表 · 加息预期逆转 · 沃什冲击</div>
+        <div class="detail">4月美国CPI同比3.8%（创2023年5月以来新高），PPI同比飙至6.0%（2022年12月以来最高）。市场从"降息交易"彻底切换至"加息交易"。5月15日沃什正式接任美联储主席，市场预期缩表+加息双压。10年期美债收益率突破4.5%，30年期触及5.18%。金价跌至4,400-4,700区间宽幅震荡。</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="date">5月下-6月中</div>
+      <div class="content">
+        <div class="title">💥 非农暴击 · 断崖式下跌</div>
+        <div class="detail">5月美国非农新增17.2万人（预期8.5万），彻底击碎降息幻想。6月6日"黑色星期五"现货黄金单日暴跌3.25%至4,328.92美元。6月11日下探至4,024美元低点，较历史高点回撤28%，创1983年以来最大单周跌幅。6月18日美联储维持利率3.5-3.75%，鹰派点阵图显示2026年可能加息。金价在4,200附近短暂震荡。</div>
+      </div>
+    </div>
+    <div class="phase-item">
+      <div class="date">6月24-25日</div>
+      <div class="content">
+        <div class="title">🔥 失守4,000 · 金银油全面崩跌</div>
+        <div class="detail">6月24日现货黄金自2025年11月以来首次跌破4,000美元关键心理关口，最低触及3,964.64美元。COMEX黄金期货跌3.4%报3,990.30美元，创七个月新低。白银跌超6%，原油跌超4%。美元指数走强至105+，市场全面定价美联储加息。6月25日金价在3,979附近交投，较年初高点累计下跌5,599→3,979，跌幅达29.2%。</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Price Chart -->
+<div class="section">
+  <h2>📊 国际金价走势示意 <span class="badge">2026年H1</span></h2>
+  <div class="chart-box" id="priceChart"></div>
+</div>
+
+<!-- Domestic Price -->
+<div class="section">
+  <h2>🇨🇳 国内金价同步暴跌 <span class="badge">大盘 & 金饰</span></h2>
+  <div class="chart-box" id="cnChart"></div>
+  <table>
+    <tr>
+      <th>品种</th>
+      <th>年内高点</th>
+      <th>最低价位</th>
+      <th>绝对跌幅</th>
+      <th>百分比跌幅</th>
+      <th>当前水平</th>
+    </tr>
+    <tr>
+      <td>国际金价 (USD/oz)</td>
+      <td>5,599 (1/29)</td>
+      <td>3,965 (6/24)</td>
+      <td>≈1,634</td>
+      <td><span class="tag tag-red">≈29.2%</span></td>
+      <td>≈3,979</td>
+    </tr>
+    <tr>
+      <td>国内大盘金价 (元/g)</td>
+      <td>1,406 (1/17)</td>
+      <td>876 (6/25)</td>
+      <td>≈530</td>
+      <td><span class="tag tag-red">≈37.7%</span></td>
+      <td>≈876</td>
+    </tr>
+    <tr>
+      <td>品牌金饰零售价 (元/g)</td>
+      <td>1,710-1,722 (1月底)</td>
+      <td>1,238-1,248 (6/25)</td>
+      <td>≈470-477</td>
+      <td><span class="tag tag-red">≈27.7%</span></td>
+      <td>≈1,238-1,248</td>
+    </tr>
+  </table>
+</div>
+
+<!-- Key Drivers -->
+<div class="section">
+  <h2>🔍 五大核心驱动因素 <span class="badge">多空共振</span></h2>
+  <div class="factor-grid">
+    <div class="factor-card">
+      <div class="title">🏛️ 美联储鹰派转向</div>
+      <div class="desc">年初市场押注降息3次，金价冲高至5,599。但通胀超预期反弹（4月CPI 3.8%、PPI 6.0%）、非农持续超预期（5月+17.2万），降息预期归零甚至转为加息预期。6月FOMC点阵图鹰派，市场定价2026年底可能加息。持有黄金的机会成本显著攀升。</div>
+      <div class="impact" style="background:#fff5f5;color:#e53e3e;">🔻 最大利空</div>
+    </div>
+    <div class="factor-card">
+      <div class="title">💵 沃什冲击 · 缩表预期</div>
+      <div class="desc">5月15日沃什接任美联储主席，主张大幅缩表1.2-2.1万亿美元、回归"纯国债持仓"。市场遭遇"沃什冲击"，10年美债收益率突破4.67%，30年期触及5.18%，实际利率升至2.18%。流动性收紧预期压制所有无息资产。</div>
+      <div class="impact" style="background:#fff5f5;color:#e53e3e;">🔻 新晋利空</div>
+    </div>
+    <div class="factor-card">
+      <div class="title">🤖 AI科技股分流资金</div>
+      <div class="desc">纳斯达克年内涨幅超40%，AI概念持续吸引全球资金。2025年全球黄金ETF净流出超200亿美元，同期美股科技ETF净流入超800亿美元。资金从防御型黄金转向进攻型科技股，黄金在资产配置竞争中处于结构性劣势。</div>
+      <div class="impact" style="background:#fff5f5;color:#e53e3e;">🔻 结构性利空</div>
+    </div>
+    <div class="factor-card">
+      <div class="title">🌍 去美元化 · 央行购金</div>
+      <div class="desc">Q1全球央行净购金244吨（同比+3%），中国央行已连续19个月增持。WGC调查显示45%央行计划未来12个月增持（历史新高），89%预计全球黄金储备上升。74%机构预计美元储备占比将下降。央行购金是金价4,000美元附近的"铁底"。</div>
+      <div class="impact" style="background:#f0fff4;color:#38a169;">🟢 核心托底</div>
+    </div>
+    <div class="factor-card">
+      <div class="title">⚔️ 地缘政治反复拉锯</div>
+      <div class="desc">2月底美伊冲突爆发，伊朗提交14点谈判文本，美方暂缓石油制裁。地缘冲突推高油价，但"油价涨→通胀升→加息预期强→金价跌"的逆向链条使黄金避险功能阶段性失效。地缘从脉冲利多变为背景变量。</div>
+      <div class="impact" style="background:#fffaf0;color:#dd6b20;">🟡 双刃剑</div>
+    </div>
+    <div class="factor-card">
+      <div class="title">🌊 全球流动性同步收缩</div>
+      <div class="desc">美联储、欧央行、日央行、中国人民银行2025年以来资产负债表均出现收缩。全球M2增速从8%降至约4%。在存量博弈环境下，黄金作为无内生收益资产的配置劣势被放大。</div>
+      <div class="impact" style="background:#fff5f5;color:#e53e3e;">🔻 系统性利空</div>
+    </div>
+  </div>
+</div>
+
+<!-- Central Bank Buying -->
+<div class="section">
+  <h2>🏦 央行购金：结构性托底 <span class="badge">全球视野</span></h2>
+  <div class="chart-box" id="cbChart"></div>
+  <table>
+    <tr><th>指标</th><th>数据</th></tr>
+    <tr><td>2026年Q1全球央行净购金</td><td><strong>244吨</strong>（同比+3%，高于5年均值）</td></tr>
+    <tr><td>中国央行连续增持月数</td><td><strong>19个月</strong>（截至5月）</td></tr>
+    <tr><td>计划增持黄金的央行比例</td><td><strong>45%</strong>（WGC调查历史最高，2025年43%）</td></tr>
+    <tr><td>预计全球黄金储备上升的央行占比</td><td><strong>89%</strong>（无央行预计下降）</td></tr>
+    <tr><td>预计美元储备占比将下降的机构</td><td><strong>74%</strong>（未来5年）</td></tr>
+    <tr><td>央行年购金量对比</td><td>近期约<strong>1,000吨/年</strong>，是此前十年均值（500吨/年）的2倍</td></tr>
+    <tr><td>央行购金核心原因</td><td>90%的央行将"黄金危机时期表现"列为核心原因</td></tr>
+    <tr><td>中国央行动态</td><td>逆周期操作：金价大涨时小幅增持，回调时加大买入力度</td></tr>
+  </table>
+</div>
+
+<!-- ETF Flow -->
+<div class="section">
+  <h2>📈 ETF资金流：从狂热到撤退 <span class="badge">资金风向标</span></h2>
+  <div class="chart-box" id="etfChart"></div>
+  <table>
+    <tr><th>时间</th><th>事件</th><th>数据</th></tr>
+    <tr><td>2025年全年</td><td>全球黄金ETF资金大幅流入</td><td>投资需求增至801吨（2024年：-2.92吨），ETF持仓稳步抬升</td></tr>
+    <tr><td>2026年Q1</td><td>持续流入+美伊冲突刺激</td><td>2月全球ETF录得53亿美元净流入，总持仓4171吨创新高；北美+47亿，亚洲+23亿</td></tr>
+    <tr><td>2026年3月</td><td>创纪录流出</td><td>全球黄金ETF遭遇创纪录的<b>120亿美元</b>净流出；北美单月净流出130亿美元</td></tr>
+    <tr><td>2026年5月初-6月中</td><td>持续缩水</td><td>SPDR Gold Trust持仓从1,036吨降至1,012吨（-2.1%）；全市场20只黄金主题ETF规模缩水超260亿元</td></tr>
+    <tr><td>2026年H1</td><td>东西方分化</td><td>西方资金大幅流出，但亚洲（尤其中国Q1黄金ETF净流入120亿元）逆势买入</td></tr>
+  </table>
+</div>
+
+<!-- US Macro Data -->
+<div class="section">
+  <h2>📊 美国宏观数据全景 <span class="badge">2026年H1</span></h2>
+  <div class="chart-box" id="macroChart"></div>
+  <table>
+    <tr><th>指标</th><th>数据</th><th>对金价影响</th></tr>
+    <tr><td>美国4月CPI</td><td>同比+3.8%（创2023年5月后新高）</td><td><span class="tag tag-red">利空</span></td></tr>
+    <tr><td>美国5月CPI</td><td>同比+4.2%（2023年初以来最高）</td><td><span class="tag tag-red">利空</span></td></tr>
+    <tr><td>美国4月PPI</td><td>同比+6.0%（2022年12月以来最高）</td><td><span class="tag tag-red">利空</span></td></tr>
+    <tr><td>美国5月非农</td><td>+17.2万（预期8.5万，远超预期）</td><td><span class="tag tag-red">利空</span></td></tr>
+    <tr><td>10年期美债收益率</td><td>4.67%（5月19日）→ 持续高位</td><td><span class="tag tag-red">利空</span></td></tr>
+    <tr><td>30年期美债收益率</td><td>5.18%（5月19日，近年新高）</td><td><span class="tag tag-red">利空</span></td></tr>
+    <tr><td>10年期实际利率</td><td>2.18%（大幅抬升持有成本）</td><td><span class="tag tag-red">利空</span></td></tr>
+    <tr><td>美元指数</td><td>99-105区间走强</td><td><span class="tag tag-red">利空</span></td></tr>
+    <tr><td>联邦基金利率</td><td>3.5%-3.75%（FOMC维持）</td><td><span class="tag tag-orange">中性偏空</span></td></tr>
+  </table>
+</div>
+
+<!-- Institutional Outlook -->
+<div class="section">
+  <h2>🔮 机构观点与下半年展望 <span class="badge">分歧加大</span></h2>
+  <div class="inst-grid">
+    <div class="inst-card">
+      <div class="name">申银万国期货</div>
+      <div class="view" style="color:#3182ce;">短期承压·中期看多</div>
+      <div class="logic">黄金货币属性持续发挥作用，缩表导致的短时流动性冲击是逢低布局契机。地缘风险中枢抬升+去美元化推进，中长期金价中枢具备上行基础。</div>
+    </div>
+    <div class="inst-card">
+      <div class="name">摩根士丹利</div>
+      <div class="view" style="color:#38a169;">看涨至5,200</div>
+      <div class="logic">押注年内仍有一次降息机会，央行购金+去美元化趋势未改，金价回调即买入机会。</div>
+    </div>
+    <div class="inst-card">
+      <div class="name">花旗</div>
+      <div class="view" style="color:#e53e3e;">看空至4,300</div>
+      <div class="logic">美伊谈判若取得进展，避险溢价将进一步消退。就业市场韧性和通胀黏性将使降息推迟至2027年。</div>
+    </div>
+    <div class="inst-card">
+      <div class="name">高盛</div>
+      <div class="view" style="color:#38a169;">央行购金托底</div>
+      <div class="logic">创纪录比例的央行增持意向为金价下行风险提供缓冲。央行年购金1,000吨构筑坚实底部。</div>
+    </div>
+  </div>
+  
+  <h3 style="margin-top:24px;">下半年关键变量</h3>
+  <table>
+    <tr><th>变量</th><th>场景</th><th>金价方向</th></tr>
+    <tr>
+      <td><strong>美联储政策</strong></td>
+      <td>若通胀回落，降息预期修复；若就业持续强劲，加息落地</td>
+      <td>降息预期修复→反弹至4,300 / 加息→下探3,700</td>
+    </tr>
+    <tr>
+      <td><strong>美伊局势</strong></td>
+      <td>谈判取得进展 vs 冲突升级</td>
+      <td>局势缓和→继续寻底 / 升级→短暂脉冲</td>
+    </tr>
+    <tr>
+      <td><strong>AI科技股</strong></td>
+      <td>估值泡沫风险 vs 基本面持续强劲</td>
+      <td>科技回调→资金回流黄金 / 继续强势→分流持续</td>
+    </tr>
+    <tr>
+      <td><strong>央行购金</strong></td>
+      <td>中国等继续逆周期增持</td>
+      <td>3,700-3,800构成下方强支撑</td>
+    </tr>
+    <tr>
+      <td><strong>美元指数</strong></td>
+      <td>特朗普减税政策、贸易关税持续支撑</td>
+      <td>美元走强→压制；美元回落→反弹</td>
+    </tr>
+    <tr>
+      <td><strong>ETF流</strong></td>
+      <td>4,000破位后恐慌抛售 vs 逢低买入</td>
+      <td>ETF继续流出→进一步承压 / 亚洲央行+零售买入→托底</td>
+    </tr>
+  </table>
+
+  <div style="margin-top:18px; padding:14px 18px; background:#f7fafc; border-radius:10px; border:1px solid #e2e8f0;">
+    <p style="font-size:14px; color:#4a5568;">
+      <strong>综合判断：</strong>4,000美元心理关口已失守，市场情绪从恐慌进入更深的观望阶段。短期（1-3个月）金价可能测试3,800-3,900区间，因没有新的做多催化出现——沃什政策框架强化、美联储加息预期升温、美元走强、科技股分流四大压制因素未见缓解。中期（3-6个月）关注美国经济数据是否边际走弱（Q3末FOMC会议是观察窗口）。长期（6-12个月）去美元化、央行购金、地缘风险中枢抬升三大结构性支撑未改，但金价需要时间来消化当前的政策逆风。建议投资者在3,700-3,900区域逐步建立观察仓位（总资产3%-5%），等沃什政策落地、市场充分消化后再加大配置。当前属于"下跌中段，不宜急于抄底"阶段，耐心等待右侧信号。
+    </p>
+  </div>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center;font-size:12px;color:#a0aec0;padding:20px 0 10px;">
+  <p>报告生成时间：2026年6月25日 · 数据来源：新浪财经、世界黄金协会、申银万国期货、高盛、花旗、摩根士丹利等公开信息</p>
+  <p style="margin-top:4px;">⚠️ 本报告仅供参考，不构成投资建议。投资有风险，入市需谨慎。</p>
+</div>
+
+</div>
+
+<script>
+(function() {
+  // Price chart
+  var c1 = echarts.init(document.getElementById('priceChart'));
+  c1.setOption({
+    tooltip: { trigger: 'axis', formatter: function(p) {
+      var s = '<b>' + p[0].axisValue + '</b><br/>';
+      p.forEach(function(i) {
+        s += i.marker + ' ' + i.seriesName + ': <b>$' + i.value.toLocaleString() + '</b><br/>';
+      });
+      return s;
+    }},
+    legend: { data: ['国际黄金(USD/oz)'], top: 0 },
+    grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+    xAxis: { type: 'category', data: ['1月初','1/29\n新高', '2月底\n美伊冲突', '3/22\n跌破4500', '4月\nCPI爆表', '5/15\n沃什上任', '6/6\n黑色周五', '6/11\n低点4024', '6/18\nFOMC', '6/24\n失守4000', '6/25\n今日'],
+      axisLabel: { fontSize: 11 } },
+    yAxis: { type: 'value', min: 3800, max: 5800, name: 'USD/oz',
+      axisLabel: { formatter: '${value}' } },
+    series: [{
+      name: '国际黄金(USD/oz)',
+      type: 'line',
+      data: [5200, 5599, 5400, 4490, 4650, 4530, 4329, 4024, 4242, 3965, 3979],
+      smooth: true,
+      lineStyle: { width: 3, color: '#d4a017' },
+      areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1,
+        colorStops: [{offset:0,color:'rgba(212,160,23,0.3)'},{offset:1,color:'rgba(212,160,23,0.02)'}] }},
+      markPoint: {
+        data: [
+          { name: '历史高点', coord: ['1/29\n新高', 5599], value: 5599, symbol: 'pin', symbolSize: 50,
+            label: { formatter: '新高\n$5,599', fontSize: 11, fontWeight: 'bold', color: '#e53e3e' }},
+          { name: '失守4000', coord: ['6/24\n失守4000', 3965], value: 3965, symbol: 'pin', symbolSize: 50,
+            label: { formatter: '失守\n$3,965', fontSize: 11, fontWeight: 'bold', color: '#e53e3e' }}
+        ]
+      }
+    }]
+  });
+
+  // CN price chart
+  var c2 = echarts.init(document.getElementById('cnChart'));
+  c2.setOption({
+    tooltip: { trigger: 'axis' },
+    legend: { data: ['大盘金价(元/克)', '品牌金饰(元/克)'], top: 0 },
+    grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+    xAxis: { type: 'category', data: ['1月初','1/17\n新高','2月','3月','4月','5月\n低点','6月上','6月下'] },
+    yAxis: [
+      { type: 'value', min: 800, max: 1800, name: '元/克' }
+    ],
+    series: [
+      { name: '大盘金价(元/克)', type: 'line', data: [1100, 1406, 1320, 1000, 960, 907, 950, 876],
+        smooth: true, lineStyle: { width: 3, color: '#d4a017' } },
+      { name: '品牌金饰(元/克)', type: 'line', data: [1350, 1722, 1650, 1450, 1380, 1310, 1270, 1245],
+        smooth: true, lineStyle: { width: 3, color: '#2b6cb0' },
+        markPoint: {
+          data: [
+            { name: '金饰新高', coord: ['1/17\n新高', 1722], value: 1722, symbol: 'pin', symbolSize: 45,
+              label: { formatter: '1,722\n元/克', fontSize: 11, fontWeight: 'bold', color: '#e53e3e' }}
+          ]
+        }
+      }
+    ]
+  });
+
+  // CB chart
+  var c3 = echarts.init(document.getElementById('cbChart'));
+  c3.setOption({
+    tooltip: { trigger: 'axis' },
+    legend: { data: ['全球央行季度购金(吨)', '5年均值'], top: 0 },
+    grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+    xAxis: { type: 'category', data: ['2020','2021','2022','2023','2024','2025','2026Q1'] },
+    yAxis: { type: 'value', name: '吨' },
+    series: [
+      { name: '全球央行季度购金(吨)', type: 'bar', data: [163, 174, 270, 263, 273, 216, 244],
+        itemStyle: { color: '#d4a017', borderRadius: [4,4,0,0] },
+        label: { show: true, position: 'top', formatter: '{c}吨' } },
+      { name: '5年均值', type: 'line', data: [210, 210, 210, 210, 210, 210, 210],
+        lineStyle: { type: 'dashed', color: '#e53e3e', width: 2 },
+        symbol: 'none',
+        label: { show: true, formatter: '均值210吨/季', position: 'right', fontSize: 11, color: '#e53e3e' } }
+    ]
+  });
+
+  // ETF chart
+  var c4 = echarts.init(document.getElementById('etfChart'));
+  c4.setOption({
+    tooltip: { trigger: 'axis' },
+    legend: { data: ['全球黄金ETF季度净流(亿美元)'], top: 0 },
+    grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true },
+    xAxis: { type: 'category', data: ['2025Q1','2025Q2','2025Q3','2025Q4','2026Q1\n(1-2月流入)','2026Q1\n(3月流出)','2026年\n5-6月'] },
+    yAxis: { type: 'value', name: '亿美元' },
+    series: [{
+      name: '全球黄金ETF季度净流(亿美元)',
+      type: 'bar',
+      data: [
+        { value: 85, itemStyle: { color: '#38a169' } },
+        { value: 62, itemStyle: { color: '#38a169' } },
+        { value: 110, itemStyle: { color: '#38a169' } },
+        { value: 95, itemStyle: { color: '#38a169' } },
+        { value: 53, itemStyle: { color: '#38a169' } },
+        { value: -120, itemStyle: { color: '#e53e3e' } },
+        { value: -45, itemStyle: { color: '#e53e3e' } }
+      ],
+      label: {
+        show: true,
+        position: 'top',
+        formatter: function(p) { return p.value > 0 ? '+' + p.value + '亿' : p.value + '亿'; },
+        fontSize: 11
+      }
+    }]
+  });
+
+  // Macro radar
+  var c5 = echarts.init(document.getElementById('macroChart'));
+  c5.setOption({
+    tooltip: { trigger: 'item' },
+    radar: {
+      indicator: [
+        { name: 'CPI (4.2%)', max: 6 },
+        { name: 'PPI (6.0%)', max: 8 },
+        { name: '非农(17.2万)', max: 20 },
+        { name: '10Y利率(4.67%)', max: 6 },
+        { name: '实际利率(2.18%)', max: 3.5 },
+        { name: '美元指数(105)', max: 110 }
+      ],
+      shape: 'circle',
+      center: ['50%', '55%'],
+      radius: '70%'
+    },
+    series: [{
+      type: 'radar',
+      data: [{
+        value: [4.2, 6.0, 17.2, 4.67, 2.18, 105],
+        name: '当前宏观压力',
+        areaStyle: { color: 'rgba(229,62,62,0.2)' },
+        lineStyle: { color: '#e53e3e', width: 2 },
+        itemStyle: { color: '#e53e3e' }
+      }]
+    }]
+  });
+})();
+</script>
+</body>
+</html>
